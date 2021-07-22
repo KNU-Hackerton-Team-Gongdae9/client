@@ -1,8 +1,11 @@
 package com.example.knuhack.entity
 
+import java.time.LocalDateTime
+
 data class Comment (
     var commentId : Long,
-    var content : String,
     var author : String,
-    var replyList : List<Reply>
-        )
+    var content : String,
+    var replyDtoList : List<Reply>,
+    var time : String
+    )

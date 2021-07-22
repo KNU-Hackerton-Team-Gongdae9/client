@@ -16,18 +16,16 @@ import com.example.knuhack.entity.Comment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+import com.example.knuhack.entity.Reply
 
 class PostDetail : AppCompatActivity() {
-    val items : ArrayList<Comment> = ArrayList<Comment>()
+    val items : ArrayList<CustomAdapter.AdapterItem> = ArrayList<CustomAdapter.AdapterItem>()
     val mContext  = this
     lateinit var listView: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_detail)
-
-        intent.getLongExtra("boardId",0)?.let { getCommentList(it) }
 
         val content = intent.getStringExtra("content") // Intent에서 Key를 email로 가지고 있는 값 가져오기
         val title= intent.getStringExtra("title")
@@ -40,47 +38,69 @@ class PostDetail : AppCompatActivity() {
         val text3 = findViewById<TextView>(R.id.writer) as TextView
         text3.setText(author)
 
-
-        //댓글
-        //val items = mutableListOf<Comment>()
-
-        //items.add(CommentForm("나는 멋지다","가나다"))
-        //items.add(CommentForm("너는 멋지다","마바사"))
-        //items.add(CommentForm("너는 안멋지다","아자차"))
-        //items.add(CommentForm("나도 안멋지다","파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하"))
-
         listView = findViewById<ListView>(R.id.commentlistview)
 
-        listView.adapter = CustomAdapter(items)
-
+        intent.getLongExtra("boardId",0)?.let {
+            getCommentList(it)
+        }
     }
 
-    private class CustomAdapter(private val items: MutableList<Comment>) : BaseAdapter() {
+    class CustomAdapter(private val items: MutableList<AdapterItem>) : BaseAdapter() {
+        data class AdapterItem(
+            val author:String,
+            val content:String,
+            var type:String,
+            var commentId : Long
+        )
 
         override fun getCount(): Int = items.size
-        override fun getItem(position: Int): Comment = items[position]
-
+        override fun getItem(position: Int): AdapterItem = items[position]
 
         override fun getItemId(position: Int): Long = position.toLong()
 
         override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
-            val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_comment_list, null)
-            val author = view.findViewById<TextView>(R.id.userNickname)
-            author.text = items[position].author
-            val content = view.findViewById<TextView>(R.id.contents)
-            content.text = items[position].content
-            return view
+            if(items[position].type.equals("COMMENT"))
+            {
+                val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_comment_list, null)
+                val author = view.findViewById<TextView>(R.id.userNickname)
+                author.text = items[position].author
+                val content = view.findViewById<TextView>(R.id.contents)
+                content.text = items[position].content
+
+                return view
+            }
+            else
+            {
+                val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_reply_list, null)
+                val author = view.findViewById<TextView>(R.id.userNickname)
+                author.text = items[position].author
+                val content = view.findViewById<TextView>(R.id.contents)
+                content.text = items[position].content
+
+                return view
+            }
+
         }
     }
 
     private fun getCommentList(boardId : Long){
         RestApiService.instance.findContentsByBoardId(boardId).enqueue(object : Callback<ApiResult<List<Comment>>>{
             override fun onResponse(call: Call<ApiResult<List<Comment>>>, response: Response<ApiResult<List<Comment>>>) {
+                Log.e("get board list ", "success get comment")
                 items.clear()
-
                 response.body()?.let {
-                    Log.i("get board list ", it.response.toString())
-                    items.addAll(it.response)
+                    Log.e("get board list ", "success response body")
+
+
+                    it.response?.let{
+                        for(comment in it){
+                            items.add(CustomAdapter.AdapterItem(comment.author, comment.content, "COMMENT", comment.commentId))
+                            for(reply in comment.replyDtoList){
+                                items.add(CustomAdapter.AdapterItem(reply.author, reply.content, "REPLY", comment.commentId))
+                            }
+                        }
+                    }
+
                     //        어답터 설정
                     listView.adapter = CustomAdapter(items)
                 }
