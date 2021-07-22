@@ -1,8 +1,9 @@
 package com.example.knuhack
 
 import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +16,6 @@ import com.example.knuhack.entity.Comment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.content.DialogInterface
-import android.content.Intent
 
 
 class PostDetail : AppCompatActivity() {
@@ -90,7 +89,7 @@ class PostDetail : AppCompatActivity() {
             when(oItems[which]){
                 oItems[0] -> startProfileActivity(item.author)
                 oItems[1] -> sendMessage(item.author)
-                oItems[2] -> writeReply(item.commentId)
+                oItems[2] -> writeReply(item.commentId, userNickname)
                 oItems[3] -> edit()
                 oItems[4] -> delete()
             }
@@ -109,8 +108,22 @@ class PostDetail : AppCompatActivity() {
         startActivity (intent)
     }
 
-    private fun writeReply(commentId: Long){
-        Toast.makeText(mContext, "write", Toast.LENGTH_LONG).show()
+    private fun writeReply(commentId: Long, nickname: String){
+        val oDialog = AlertDialog.Builder(mContext, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+        oDialog.setTitle("답글 입력")
+            .setMessage("GOOD")
+            .setPositiveButton("입력", object : DialogInterface.OnClickListener{
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    Log.d("답글 입력", "입력 버튼~~")
+                }
+            })
+            .setNegativeButton("취소", object  : DialogInterface.OnClickListener{
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    Log.d("답글 취소", "취소 버튼~~")
+                }
+            })
+            .create()
+            .show()
     }
 
     private fun edit(){
