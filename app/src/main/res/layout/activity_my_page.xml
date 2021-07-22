@@ -44,7 +44,7 @@
                     android:layout_weight="1" />
 
                 <Button
-                    android:id="@+id/profile_nickname_change_btn"
+                    android:id="@+id/profile_change_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:layout_gravity="center_vertical"
