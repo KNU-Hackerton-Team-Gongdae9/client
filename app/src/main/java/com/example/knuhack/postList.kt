@@ -27,18 +27,17 @@ class postList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_list)
 
-        val btn = findViewById<Button>(R.id.writebtn) as Button
-        btn.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, write_post::class.java)
-            startActivity(intent)
-        })
-
-
+        intent.getStringExtra("nickname")?.let { userNickname = it }
+        userId = intent.getLongExtra("userId", -1)
         intent.getStringExtra("category")?.let { getBoardList(it) }
         listView = findViewById<ListView>(R.id.listview)
 
-        userId = intent.getLongExtra("userId", -1)
-        intent.getStringExtra("nickname")?.let { userNickname = it }
+        val btn = findViewById<Button>(R.id.writebtn) as Button
+        btn.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, write_post::class.java)
+            intent.putExtra("nickname", userNickname)
+            startActivity(intent)
+        })
 
 //        Item click listener
         listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.knuhack.dto.ApiResult
 import com.example.knuhack.dto.CommentForm
 import com.example.knuhack.entity.Comment
+import com.google.android.material.button.MaterialButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -62,10 +63,31 @@ class PostDetail : AppCompatActivity() {
         boardId = intent.getLongExtra("boardId",0)
         userId = intent.getLongExtra("userId", -1)
         intent.getStringExtra("nickname")?.let { userNickname = it }
-
+        
+        
         intent.getStringExtra("content")?.let { content = it }  // Intent에서 Key를 email로 가지고 있는 값 가져오기
         intent.getStringExtra("title")?.let { title = it }
         intent.getStringExtra("author")?.let { author = it }
+
+        val commentText = findViewById<EditText>(R.id.commentEdit) as EditText
+        val text1 = findViewById<TextView>(R.id.postTitle) as TextView
+        text1.setText(title)
+        val text2 = findViewById<TextView>(R.id.detailContent) as TextView
+        text2.setText(content)
+        val text3 = findViewById<TextView>(R.id.writer_postDetail) as TextView
+        text3.setText(author)
+
+        val commentbtn = findViewById<Button>(R.id.writeCommentBtn) as Button
+
+        commentbtn.setOnClickListener {
+            val content = commentText.text.toString().trim { it <= ' ' }
+            Log.i("가져온 텍스트 : ", content)
+            if (userNickname != null) {
+                writeComment(boardId, userNickname, content, commentText)
+                // TODO : writeReply(item.commentId, userNickname) 이걸로 대체
+                writeReply(userNickname)
+            }
+        }
     }
 
     private fun findViews(){
@@ -76,7 +98,6 @@ class PostDetail : AppCompatActivity() {
         detailTextView.setText(content)
         authorTextView = findViewById<TextView>(R.id.writer_postDetail) as TextView
         authorTextView.setText(author)
-
         listView = findViewById<ListView>(R.id.commentlistview)
         writeCommentBtn = findViewById<Button>(R.id.writeCommentBtn)
         toAuthorBtn = findViewById<ImageButton>(R.id.menu_btn_postDetail)
@@ -117,7 +138,7 @@ class PostDetail : AppCompatActivity() {
             when(oItems[which]){
                 oItems[0] -> startProfileActivity(item.author)
                 oItems[1] -> sendMessage(item.author)
-                oItems[2] -> writeReply(item.commentId, userNickname)
+                oItems[2] -> writeReply(userNickname) // TODO: item.commentId, 추가
                 oItems[3] -> edit()
                 oItems[4] -> delete()
             }
@@ -136,22 +157,27 @@ class PostDetail : AppCompatActivity() {
         startActivity (intent)
     }
 
-    private fun writeReply(commentId: Long, nickname: String){
-        val oDialog = AlertDialog.Builder(mContext, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
-        oDialog.setTitle("답글 입력")
-            .setMessage("GOOD")
-            .setPositiveButton("입력", object : DialogInterface.OnClickListener{
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    Log.d("답글 입력", "입력 버튼~~")
-                }
-            })
-            .setNegativeButton("취소", object  : DialogInterface.OnClickListener{
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    Log.d("답글 취소", "취소 버튼~~")
-                }
-            })
+    private fun writeReply(nickname: String){ // TODO : commentId: Long 추가
+        val dialogView = layoutInflater.inflate(R.layout.dialog_reply, null)
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogView)
             .create()
-            .show()
+
+        val replyContent = dialogView.findViewById<EditText>(R.id.content_reply).text
+        val confirmBtn = dialogView.findViewById<MaterialButton>(R.id.writeReplyConfirmButton)
+        val cancelBtn = dialogView.findViewById<MaterialButton>(R.id.writeReplyCancelButton)
+
+        confirmBtn.setOnClickListener {
+            alertDialog.dismiss()
+            Log.d("입력 확인", "답글 내용 : $replyContent")
+        }
+
+        cancelBtn.setOnClickListener {
+            alertDialog.dismiss()
+            Log.d("답글 작성 취소", "답글 입력을 취소했삼 ㅋㅋㅎㅎ;;")
+        }
+
+        alertDialog.show()
     }
 
     private fun edit(){
