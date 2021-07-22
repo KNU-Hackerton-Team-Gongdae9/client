@@ -17,37 +17,44 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/messageKind"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textColor="@color/colorPrimary"
-                android:textSize="14sp"
-                android:layout_height="wrap_content"
-                android:text="메세지 종류" />
+<!--            <TextView-->
+<!--                android:id="@+id/my_messageKind"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:textColor="@color/colorPrimary"-->
+<!--                android:textSize="14sp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="메세지 종류" />-->
 
 
             <TextView
-                android:id="@+id/message_date"
+                android:id="@+id/my_message_date"
                 android:layout_width="0dp"
                 android:layout_marginRight="20dp"
-                android:layout_gravity="left"
+                android:layout_gravity="bottom"
                 android:textAlignment="textEnd"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="날짜"
+                android:text="15:30"
                 tools:ignore="RtlCompat" />
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/my_message_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="쪽지 내용"
+                android:gravity="right"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:background="@drawable/message_background"
+                />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_marginTop="10dp"
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="쪽지 내용"
-            android:textSize="14sp"
-            />
+
     </LinearLayout>
 
 </LinearLayout>

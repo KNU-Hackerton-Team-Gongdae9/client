@@ -60,7 +60,7 @@ class Login : AppCompatActivity() {
                         Toast.makeText(mContext, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
 
                         intent = Intent(mContext, MainActivity::class.java)
-                        intent.putExtra("id", it.id)
+                        intent.putExtra("id", it.userId)
                         intent.putExtra("nickname", it.nickname)
                         startActivity(intent)
                         finish()
