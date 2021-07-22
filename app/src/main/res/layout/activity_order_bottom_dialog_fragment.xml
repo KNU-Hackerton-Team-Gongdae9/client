@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="24dp"
+    app:behavior_hideable="true"
+    android:orientation="vertical"
+    app:behavior_peekHeight="56dp"
+    android:background="@drawable/radius"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="게시판 선택" />
+
+    <Button
+        android:id="@+id/slect_qna"
+        android:gravity="left"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_height="wrap_content"
+        android:text="Q&amp;A" />
+
+    <Button
+        android:id="@+id/slect_free"
+        android:gravity="left"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_height="wrap_content"
+        android:text="자유게시판" />
+
+    <Button
+        android:id="@+id/slect_team"
+        android:gravity="left"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_height="wrap_content"
+        android:text="팀프로젝트" />
+
+
+</LinearLayout>
