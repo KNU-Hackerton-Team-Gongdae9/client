@@ -1,7 +1,6 @@
 package com.example.knuhack
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +12,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.knuhack.dto.ApiResult
 import com.example.knuhack.dto.CommentForm
+import com.example.knuhack.dto.ReplyForm
 import com.example.knuhack.entity.Comment
 import com.google.android.material.button.MaterialButton
 import retrofit2.Call
@@ -84,8 +84,6 @@ class PostDetail : AppCompatActivity() {
             Log.i("가져온 텍스트 : ", content)
             if (userNickname != null) {
                 writeComment(boardId, userNickname, content, commentText)
-                // TODO : writeReply(item.commentId, userNickname) 이걸로 대체
-                writeReply(userNickname)
             }
         }
     }
@@ -138,7 +136,7 @@ class PostDetail : AppCompatActivity() {
             when(oItems[which]){
                 oItems[0] -> startProfileActivity(item.author)
                 oItems[1] -> sendMessage(item.author)
-                oItems[2] -> writeReply(userNickname) // TODO: item.commentId, 추가
+                oItems[2] -> writeReply(item.commentId, userNickname) // TODO: item.commentId, 추가
                 oItems[3] -> edit()
                 oItems[4] -> delete()
             }
@@ -157,24 +155,25 @@ class PostDetail : AppCompatActivity() {
         startActivity (intent)
     }
 
-    private fun writeReply(nickname: String){ // TODO : commentId: Long 추가
+    private fun writeReply(commentId: Long, nickname: String){ // TODO : commentId: Long 추가
         val dialogView = layoutInflater.inflate(R.layout.dialog_reply, null)
         val alertDialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
 
-        val replyContent = dialogView.findViewById<EditText>(R.id.content_reply).text
+        val replyContent = dialogView.findViewById<EditText>(R.id.reply_content).text
         val confirmBtn = dialogView.findViewById<MaterialButton>(R.id.writeReplyConfirmButton)
         val cancelBtn = dialogView.findViewById<MaterialButton>(R.id.writeReplyCancelButton)
 
         confirmBtn.setOnClickListener {
             alertDialog.dismiss()
             Log.d("입력 확인", "답글 내용 : $replyContent")
+            writeReply(commentId, nickname, replyContent.toString())
         }
 
         cancelBtn.setOnClickListener {
             alertDialog.dismiss()
-            Log.d("답글 작성 취소", "답글 입력을 취소했삼 ㅋㅋㅎㅎ;;")
+            Log.d("답글 작성 취소 ", "답글 입력을 취소했습니다.")
         }
 
         alertDialog.show()
@@ -277,6 +276,21 @@ class PostDetail : AppCompatActivity() {
             override fun onFailure(call: Call<ApiResult<Comment>>, t: Throwable) {
                 Toast.makeText(mContext,"댓글 작성에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                 t.message?.let { Log.e("comment writing failed", it) }
+            }
+        })
+    }
+
+    private fun writeReply(commentId: Long, nickname: String, replyContent: String) {
+        RestApiService.instance.writeReply(commentId, ReplyForm(nickname, replyContent)).enqueue(object : Callback<ApiResult<String>> {
+            override fun onResponse(call: Call<ApiResult<String>>, response: Response<ApiResult<String>>) {
+                response.body()?.let {
+                    Log.i("[Response] ", it.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResult<String>>, t: Throwable) {
+                Toast.makeText(mContext,"답글 작성에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                t.message?.let { Log.e("reply writing failed", it) }
             }
         })
     }
