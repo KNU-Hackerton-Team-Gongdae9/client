@@ -24,15 +24,18 @@ class postList : AppCompatActivity() {
     val items : ArrayList<Board> = ArrayList<Board>()
     val mContext  = this
     lateinit var listView: ListView
+    var userId : Long = -1
+    lateinit var userNickname : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_list)
         
         intent.getStringExtra("category")?.let { getBoardList(it) }
-        val myNickname = intent.getStringExtra("nickname")
         listView = findViewById<ListView>(R.id.listview)
 
-
+        userId = intent.getLongExtra("userId", -1)
+        intent.getStringExtra("nickname")?.let { userNickname = it }
 
 //        Item click listener
         listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
@@ -43,7 +46,9 @@ class postList : AppCompatActivity() {
             intent.putExtra("author",item.author)
             intent.putExtra("content",item.content)
             intent.putExtra("category",item.category)
-            intent.putExtra("myNickname",myNickname)
+            intent.putExtra("userId", userId)
+            intent.putExtra("nickname", userNickname)
+
             startActivity(intent)
         }
 
@@ -74,9 +79,8 @@ class postList : AppCompatActivity() {
             override fun onResponse(call: Call<ApiResult<List<Board>>>, response: Response<ApiResult<List<Board>>>) {
                 items.clear()
 
-                response.body()?.let {
-                    Log.i("get board list ", it.response.toString())
-                    items.addAll(it.response)
+                response.body()?.response?.let{
+                    items.addAll(it)
                     //        어답터 설정
                     listView.adapter = MyCustomAdapter(items)
                 }
