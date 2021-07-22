@@ -1,21 +1,33 @@
 package com.example.knuhack
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.knuhack.dto.CommentForm
+import com.example.knuhack.dto.ApiResult
+import com.example.knuhack.entity.Board
+import com.example.knuhack.entity.Comment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import com.example.knuhack.entity.Reply
 
-
 class PostDetail : AppCompatActivity() {
+    val items : ArrayList<Comment> = ArrayList<Comment>()
+    val mContext  = this
+    lateinit var listView: ListView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_detail)
+
+        intent.getLongExtra("boardId",0)?.let { getCommentList(it) }
 
         val content = intent.getStringExtra("content") // Intent에서 Key를 email로 가지고 있는 값 가져오기
         val title= intent.getStringExtra("title")
@@ -31,26 +43,16 @@ class PostDetail : AppCompatActivity() {
         //댓글
         val items = mutableListOf<test>()
 
-        items.add(test(1,"나는 멋지다","가나다"))//1이면 댓글 2이면 대댓글
-        items.add(test(2,"as","가나다"))
-        items.add(test(2,"fasd","가나다"))
+        listView = findViewById<ListView>(R.id.commentlistview)
 
-        items.add(test(2,"asqwd","마바사"))
-        items.add(test(1,"너는 안멋지다","아자차"))
-        items.add(test(1,"나도 안멋지다","파타파타하"))
-
-
-        val commentlistview = findViewById<ListView>(R.id.commentlistview)
-
-        commentlistview.adapter = CustomAdapter(items)
+        listView.adapter = CustomAdapter(items)
 
     }
 
-    private class CustomAdapter(private val items: MutableList<test>) : BaseAdapter() {
+    private class CustomAdapter(private val items: MutableList<Comment>) : BaseAdapter() {
 
         override fun getCount(): Int = items.size
-        override fun getItem(position: Int): test = items[position]
-
+        override fun getItem(position: Int): Comment = items[position]
 
         override fun getItemId(position: Int): Long = position.toLong()
 
@@ -78,21 +80,23 @@ class PostDetail : AppCompatActivity() {
 
         }
     }
-    private class ReCustomAdapter(private val items: MutableList<Reply>) : BaseAdapter() {
 
-        override fun getCount(): Int = items.size
-        override fun getItem(position: Int): Reply = items[position]
+    private fun getCommentList(boardId : Long){
+        RestApiService.instance.findContentsByBoardId(boardId).enqueue(object : Callback<ApiResult<List<Comment>>>{
+            override fun onResponse(call: Call<ApiResult<List<Comment>>>, response: Response<ApiResult<List<Comment>>>) {
+                items.clear()
 
+                response.body()?.let {
+                    Log.i("get board list ", it.response.toString())
+                    items.addAll(it.response)
+                    //        어답터 설정
+                    listView.adapter = CustomAdapter(items)
+                }
+            }
 
-        override fun getItemId(position: Int): Long = position.toLong()
-
-        override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
-            val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_reply_list, null)
-            val author = view.findViewById<TextView>(R.id.userNickname)
-            author.text = items[position].author
-            val content = view.findViewById<TextView>(R.id.contents)
-            content.text = items[position].content
-            return view
-        }
+            override fun onFailure(call: Call<ApiResult<List<Comment>>>, t: Throwable) {
+                Toast.makeText(mContext, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

@@ -75,10 +75,19 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.menu_item1  -> {
                     val intent = Intent(this, postList::class.java)
+                    intent.putExtra("category", "FREE")
                     startActivity (intent)
                 }
-                //R.id.menu_item2 -> Toast.makeText(applicationContext, "Item 1 click",Toast.LENGTH_SHORT).show()
-              //  R.id.menu_item3 -> Toast.makeText(applicationContext, "Item 1 click",Toast.LENGTH_SHORT).show()
+                R.id.menu_item2 -> {
+                    val intent = Intent(this, postList::class.java)
+                    intent.putExtra("category", "QNA")
+                    startActivity (intent)
+                }
+                /*R.id.menu_item3 -> {
+                    val intent = Intent(this, postList::class.java)
+                    intent.putExtra("category", "")
+                    startActivity (intent)
+                }*/
             }
             true
         }
