@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.knuhack.dto.ApiResult
 import com.example.knuhack.dto.CommentForm
 import com.example.knuhack.entity.Comment
+import com.google.android.material.button.MaterialButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,6 +54,8 @@ class PostDetail : AppCompatActivity() {
             Log.i("가져온 텍스트 : ", content)
             if (userNickname != null) {
                 writeComment(boardId, userNickname, content, commentText)
+                // TODO : writeReply(item.commentId, userNickname) 이걸로 대체
+                writeReply(userNickname)
             }
         }
 
@@ -89,7 +92,7 @@ class PostDetail : AppCompatActivity() {
             when(oItems[which]){
                 oItems[0] -> startProfileActivity(item.author)
                 oItems[1] -> sendMessage(item.author)
-                oItems[2] -> writeReply(item.commentId, userNickname)
+                oItems[2] -> writeReply(userNickname) // TODO: item.commentId, 추가
                 oItems[3] -> edit()
                 oItems[4] -> delete()
             }
@@ -108,22 +111,27 @@ class PostDetail : AppCompatActivity() {
         startActivity (intent)
     }
 
-    private fun writeReply(commentId: Long, nickname: String){
-        val oDialog = AlertDialog.Builder(mContext, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
-        oDialog.setTitle("답글 입력")
-            .setMessage("GOOD")
-            .setPositiveButton("입력", object : DialogInterface.OnClickListener{
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    Log.d("답글 입력", "입력 버튼~~")
-                }
-            })
-            .setNegativeButton("취소", object  : DialogInterface.OnClickListener{
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    Log.d("답글 취소", "취소 버튼~~")
-                }
-            })
+    private fun writeReply(nickname: String){ // TODO : commentId: Long 추가
+        val dialogView = layoutInflater.inflate(R.layout.dialog_reply, null)
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogView)
             .create()
-            .show()
+
+        val replyContent = dialogView.findViewById<EditText>(R.id.content_reply).text
+        val confirmBtn = dialogView.findViewById<MaterialButton>(R.id.writeReplyConfirmButton)
+        val cancelBtn = dialogView.findViewById<MaterialButton>(R.id.writeReplyCancelButton)
+
+        confirmBtn.setOnClickListener {
+            alertDialog.dismiss()
+            Log.d("입력 확인", "답글 내용 : $replyContent")
+        }
+
+        cancelBtn.setOnClickListener {
+            alertDialog.dismiss()
+            Log.d("답글 작성 취소", "답글 입력을 취소했삼 ㅋㅋㅎㅎ;;")
+        }
+
+        alertDialog.show()
     }
 
     private fun edit(){
