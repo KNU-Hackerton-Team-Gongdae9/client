@@ -38,7 +38,7 @@ class PostDetail : AppCompatActivity() {
         val content = intent.getStringExtra("content") // Intent에서 Key를 email로 가지고 있는 값 가져오기
         val title= intent.getStringExtra("title")
         val author = intent.getStringExtra("author")
-x
+
         val commentText = findViewById<EditText>(R.id.commentEdit) as EditText
         val text1 = findViewById<TextView>(R.id.postTitle) as TextView
         text1.setText(title)
