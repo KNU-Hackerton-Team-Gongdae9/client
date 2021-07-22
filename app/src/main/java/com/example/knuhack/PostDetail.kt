@@ -2,6 +2,7 @@ package com.example.knuhack
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.knuhack.dto.ApiResult
+import com.example.knuhack.dto.CommentForm
 import com.example.knuhack.entity.Comment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 import android.content.DialogInterface
 import android.content.Intent
 
@@ -30,13 +31,15 @@ class PostDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_detail)
 
+        val boardId = intent.getLongExtra("boardId",0)
         userId = intent.getLongExtra("userId", -1)
         intent.getStringExtra("nickname")?.let { userNickname = it }
-
+        
         val content = intent.getStringExtra("content") // Intent에서 Key를 email로 가지고 있는 값 가져오기
         val title= intent.getStringExtra("title")
         val author = intent.getStringExtra("author")
-
+x
+        val commentText = findViewById<EditText>(R.id.commentEdit) as EditText
         val text1 = findViewById<TextView>(R.id.postTitle) as TextView
         text1.setText(title)
         val text2 = findViewById<TextView>(R.id.detailContent) as TextView
@@ -44,12 +47,20 @@ class PostDetail : AppCompatActivity() {
         val text3 = findViewById<TextView>(R.id.writer) as TextView
         text3.setText(author)
 
-        listView = findViewById<ListView>(R.id.commentlistview)
+        val commentbtn = findViewById<Button>(R.id.writeCommentBtn) as Button
 
-        intent.getLongExtra("boardId",0)?.let {
-            getCommentList(it)
+        commentbtn.setOnClickListener {
+            val content = commentText.text.toString().trim { it <= ' ' }
+            Log.i("가져온 텍스트 : ", content)
+            if (userNickname != null) {
+                writeComment(boardId, userNickname, content, commentText)
+            }
         }
 
+        listView = findViewById<ListView>(R.id.commentlistview)
+
+        getCommentList(boardId)
+        
         listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             setCommentDialog(items[position])
         }
@@ -175,6 +186,22 @@ class PostDetail : AppCompatActivity() {
 
             override fun onFailure(call: Call<ApiResult<List<Comment>>>, t: Throwable) {
                 Toast.makeText(mContext, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun writeComment(boardId: Long, nickname: String, content: String, commentText: EditText) {
+        RestApiService.instance.writeComment(boardId, CommentForm(content, nickname)).enqueue(object : Callback<ApiResult<Comment>> {
+            override fun onResponse(call: Call<ApiResult<Comment>>, response: Response<ApiResult<Comment>>) {
+                response.body()?.let {
+                    Log.i("댓글 작성이 성공적으로 수행되었습니다.", it.toString())
+                    commentText.setText("")
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResult<Comment>>, t: Throwable) {
+                Toast.makeText(mContext,"댓글 작성에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                t.message?.let { Log.e("comment writing failed", it) }
             }
         })
     }
