@@ -21,6 +21,7 @@
                 android:id="@+id/messageKind"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:textColor="#F306C5AF"
                 android:textSize="14sp"
                 android:layout_height="wrap_content"
                 android:text="메세지 종류" />
