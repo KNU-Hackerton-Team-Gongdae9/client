@@ -24,9 +24,9 @@ interface RestApiService {
     @POST("/profile/user/{member_id}")fun createProfile(@Path("member_id")member_id:Long,@Body profileForm: ProfileForm) : Call<ApiResult<String>>
     @PUT("/profile/user/{member_id}")fun changeProfile(@Path("member_id")member_id:Long,@Body profileForm: ProfileForm): Call<ApiResult<String>>
 
-    @PUT("/reply/{reply_id}")fun editReply(@Path("reply_id")reply_id:Long,@Body replyForm:ReplyForm):Call<ApiResult<String>>
+    @PUT("/reply/{reply_id}")fun editReply(@Path("reply_id")reply_id:Long,@Body replyForm:ReplyForm):Call<ApiResult<Reply>>
     @DELETE("/reply/{reply_id}")fun deleteReply(@Path("reply_id")reply_id:Long) : Call<ApiResult<String>>
-    @POST("/reply/comment/{comment_id}")fun writeReply(@Path("comment_id")comment_id:Long,@Body replyForm: ReplyForm) : Call<ApiResult<String>>
+    @POST("/reply/comment/{comment_id}")fun writeReply(@Path("comment_id")comment_id:Long,@Body replyForm: ReplyForm) : Call<ApiResult<Reply>>
 
     @POST("/user/signIn")fun signIn(@Body signInForm: SignInForm):Call <ApiResult<Member>>
     @POST("/user/signUp")fun signUp(@Body signUpForm: SignUpForm):Call <ApiResult<String>>
