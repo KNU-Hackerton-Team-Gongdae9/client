@@ -1,7 +1,7 @@
 package com.example.knuhack.entity
 
 data class Member(
-    var id : String,
+    var userId : Long,
     var nickname : String,
 
 //    var id : String,

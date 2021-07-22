@@ -3,6 +3,7 @@ package com.example.knuhack
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
@@ -52,6 +53,13 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             when(it.itemId)
             {
+                R.id.menu_message -> {
+                    val intent = Intent(this, MessageActivity::class.java)
+                    intent.putExtra("nickname", nickname)
+                    intent.putExtra("userId", id)
+                    startActivity (intent)
+                }
+
                 R.id.menu_profile -> {
                     val intent = Intent(this, ProfileActivity::class.java)
                     intent.putExtra("nickname", nickname)
