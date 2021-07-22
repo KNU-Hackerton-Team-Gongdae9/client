@@ -1,14 +1,13 @@
 package com.example.knuhack
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.knuhack.dto.ApiResult
-import com.example.knuhack.dto.MemberDto
 import com.example.knuhack.dto.SignInForm
 import com.example.knuhack.entity.Member
 import retrofit2.Call
@@ -51,14 +50,21 @@ class Login : AppCompatActivity() {
     fun requestLogin(id: String, pw: String) {
         RestApiService.instance.signIn(SignInForm(id,pw)).enqueue(object : Callback<ApiResult<Member>> {
             override fun onResponse(call: Call<ApiResult<Member>>, response: Response<ApiResult<Member>>) {
+                response.body()?.let{
+                    if(!it.success){
+                        Toast.makeText(mContext, it.error.message, Toast.LENGTH_SHORT).show()
 
-                Toast.makeText(mContext,"로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-                response.body()?.let {
-                    intent = Intent(mContext, MainActivity::class.java)
-                    intent.putExtra("id", it.response.id)
-                    intent.putExtra("nickname", it.response.nickname)
-                    startActivity (intent)
-                    finish()
+                    }
+
+                    it.response?.let {
+                        Toast.makeText(mContext, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+
+                        intent = Intent(mContext, MainActivity::class.java)
+                        intent.putExtra("id", it.id)
+                        intent.putExtra("nickname", it.nickname)
+                        startActivity(intent)
+                        finish()
+                    }
                 }
             }
 

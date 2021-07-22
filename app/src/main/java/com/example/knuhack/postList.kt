@@ -73,9 +73,8 @@ class postList : AppCompatActivity() {
             override fun onResponse(call: Call<ApiResult<List<Board>>>, response: Response<ApiResult<List<Board>>>) {
                 items.clear()
 
-                response.body()?.let {
-                    Log.i("get board list ", it.response.toString())
-                    items.addAll(it.response)
+                response.body()?.response?.let{
+                    items.addAll(it)
                     //        어답터 설정
                     listView.adapter = MyCustomAdapter(items)
                 }
