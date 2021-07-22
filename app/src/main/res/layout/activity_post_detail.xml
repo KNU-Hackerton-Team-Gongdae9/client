@@ -90,13 +90,12 @@
             </LinearLayout>
 
             <ImageButton
-            android:id="@+id/menu_btn_postDetail"
-                android:textAlignment="textEnd"
-            android:layout_width="15dp"
-            android:layout_height="match_parent"
+                android:id="@+id/menu_btn_postDetail"
+                android:layout_width="11dp"
+                android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-            android:src="@drawable/dot"
-                />
+                android:src="@drawable/dot"
+                android:textAlignment="textEnd" />
 
         </LinearLayout>
 
