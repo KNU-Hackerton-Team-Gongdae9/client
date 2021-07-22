@@ -1,7 +1,7 @@
 package com.example.knuhack
 
-import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +10,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.knuhack.dto.ApiResult
 import com.example.knuhack.dto.CommentForm
-import com.example.knuhack.dto.SignInForm
-import com.example.knuhack.entity.Board
 import com.example.knuhack.entity.Comment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.example.knuhack.entity.Reply
 
 class PostDetail : AppCompatActivity() {
     val items : ArrayList<CustomAdapter.AdapterItem> = ArrayList<CustomAdapter.AdapterItem>()
@@ -47,7 +44,7 @@ class PostDetail : AppCompatActivity() {
             val content = commentText.text.toString().trim { it <= ' ' }
             Log.i("가져온 텍스트 : ", content)
             if (myNickname != null) {
-                writeComment(boardId, myNickname, content)
+                writeComment(boardId, myNickname, content, commentText)
             }
         }
 
@@ -123,10 +120,13 @@ class PostDetail : AppCompatActivity() {
         })
     }
 
-    private fun writeComment(boardId : Long, nickname: String, content: String) {
+    private fun writeComment(boardId: Long, nickname: String, content: String, commentText: EditText) {
         RestApiService.instance.writeComment(boardId, CommentForm(content, nickname)).enqueue(object : Callback<ApiResult<Comment>> {
             override fun onResponse(call: Call<ApiResult<Comment>>, response: Response<ApiResult<Comment>>) {
-                response.body()?.let { Log.i("댓글 작성이 성공적으로 수행되었습니다.", it.toString())}
+                response.body()?.let {
+                    Log.i("댓글 작성이 성공적으로 수행되었습니다.", it.toString())
+                    commentText.setText("")
+                }
             }
 
             override fun onFailure(call: Call<ApiResult<Comment>>, t: Throwable) {
