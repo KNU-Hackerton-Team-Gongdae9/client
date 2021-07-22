@@ -3,7 +3,7 @@ package com.example.knuhack.dto
 import com.example.knuhack.entity.Message
 import com.example.knuhack.entity.WriteComment
 
-data class Member (
+data class MemberDto (
 
     var id : Long,
 

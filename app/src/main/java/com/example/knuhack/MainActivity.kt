@@ -36,8 +36,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        nickname = intent.getStringExtra("nickname").toString()
         id = intent.getLongExtra("id", -1)
+        intent.getStringExtra("nickname")?.let { nickname = it }
+
+//        nickname = intent.getStringExtra("nickname").toString()
+//        id = intent.getLongExtra("id", -1)
 
 //        val btn = findViewById<Button>(R.id.btn1) as Button
 //        btn.setOnClickListener(View.OnClickListener {
@@ -65,8 +68,7 @@ class MainActivity : AppCompatActivity() {
             {
                 R.id.menu_profile -> {
                     val intent = Intent(this, MyPage::class.java)
-                    intent.putExtra("nickname", "string")
-//                    intent.putExtra("nickname", nickname)
+                    intent.putExtra("nickname", nickname)
                     intent.putExtra("id", id)
                     startActivity (intent)
                 }
