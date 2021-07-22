@@ -12,8 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KnuHack"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CommentDetail"></activity>
-        <activity android:name=".CommentList"></activity>
+        <activity android:name=".Reply"></activity>
+        <activity android:name=".CommentDetail" />
+        <activity android:name=".CommentList" />
         <activity android:name=".PostDetail" />
         <activity android:name=".write_post" />
         <activity android:name=".postList" />
