@@ -13,7 +13,7 @@ interface RestApiService {
     @GET("/api/board/findTitle")fun findBoardByTitle(@Query("title")title:String) :  Call<ApiResult<List<Board>>>
     @POST("/api/board/write")fun writeBoard(@Body boardForm:BoardForm) : Call<ApiResult<Board>>
 
-    @POST("/api/comment/wirte/{boardId}")fun writeComment(@Path("boardId")boardId:Long,@Body commentForm: CommentForm) : Call<ApiResult<Comment>>
+    @POST("/api/comment/write/{boardId}")fun writeComment(@Path("boardId")boardId:Long,@Body commentForm: CommentForm) : Call<ApiResult<Comment>>
     @GET("/api/comment/findContentsByBoardId")fun findContentsByBoardId(@Query("boardId")boardId: Long) : Call<ApiResult<List<Comment>>>
 
     @POST("/message/from/{sender_id}/to/{receiver_nickname}")fun send(@Body messageForm: MessageForm, @Path("sender_id")sender_id:Long, @Path("receiver_nickname") receiver_nickname:String) : Call<ApiResult<String>>
