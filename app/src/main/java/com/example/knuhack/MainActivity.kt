@@ -73,11 +73,13 @@ class MainActivity : AppCompatActivity() {
                     intent.putExtra("userId", id)
                     startActivity (intent)
                 }
-                /*R.id.menu_item3 -> {
+                R.id.menu_item3 -> {
                     val intent = Intent(this, postList::class.java)
-                    intent.putExtra("category", "")
+                    intent.putExtra("category", "TEAM")
+                    intent.putExtra("nickname", nickname)
+                    intent.putExtra("userId", id)
                     startActivity (intent)
-                }*/
+                }
             }
             true
         }
