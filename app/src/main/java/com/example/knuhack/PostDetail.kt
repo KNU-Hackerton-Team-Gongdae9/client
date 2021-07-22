@@ -8,9 +8,8 @@ import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.knuhack.dto.BoardForm
 import com.example.knuhack.dto.CommentForm
-import com.example.knuhack.entity.WriteComment
+import com.example.knuhack.entity.Reply
 
 
 class PostDetail : AppCompatActivity() {
@@ -29,15 +28,17 @@ class PostDetail : AppCompatActivity() {
         val text3 = findViewById<TextView>(R.id.writer) as TextView
         text3.setText(author)
 
-
-
         //댓글
-        val items = mutableListOf<CommentForm>()
+        val items = mutableListOf<test>()
 
-        items.add(CommentForm("나는 멋지다","가나다"))
-        items.add(CommentForm("너는 멋지다","마바사"))
-        items.add(CommentForm("너는 안멋지다","아자차"))
-        items.add(CommentForm("나도 안멋지다","파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하"))
+        items.add(test(1,"나는 멋지다","가나다"))//1이면 댓글 2이면 대댓글
+        items.add(test(2,"as","가나다"))
+        items.add(test(2,"fasd","가나다"))
+
+        items.add(test(2,"asqwd","마바사"))
+        items.add(test(1,"너는 안멋지다","아자차"))
+        items.add(test(1,"나도 안멋지다","파타파타하"))
+
 
         val commentlistview = findViewById<ListView>(R.id.commentlistview)
 
@@ -45,16 +46,48 @@ class PostDetail : AppCompatActivity() {
 
     }
 
-    private class CustomAdapter(private val items: MutableList<CommentForm>) : BaseAdapter() {
+    private class CustomAdapter(private val items: MutableList<test>) : BaseAdapter() {
 
         override fun getCount(): Int = items.size
-        override fun getItem(position: Int): CommentForm = items[position]
+        override fun getItem(position: Int): test = items[position]
 
 
         override fun getItemId(position: Int): Long = position.toLong()
 
         override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
-            val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_comment_list, null)
+            if(items[position].type==1)
+            {
+                val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_comment_list, null)
+                val author = view.findViewById<TextView>(R.id.userNickname)
+                author.text = items[position].author
+                val content = view.findViewById<TextView>(R.id.contents)
+                content.text = items[position].content
+
+                return view
+            }
+            else
+            {
+                val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_reply_list, null)
+                val author = view.findViewById<TextView>(R.id.userNickname)
+                author.text = items[position].author
+                val content = view.findViewById<TextView>(R.id.contents)
+                content.text = items[position].content
+
+                return view
+            }
+
+        }
+    }
+    private class ReCustomAdapter(private val items: MutableList<Reply>) : BaseAdapter() {
+
+        override fun getCount(): Int = items.size
+        override fun getItem(position: Int): Reply = items[position]
+
+
+        override fun getItemId(position: Int): Long = position.toLong()
+
+        override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
+            val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_reply_list, null)
             val author = view.findViewById<TextView>(R.id.userNickname)
             author.text = items[position].author
             val content = view.findViewById<TextView>(R.id.contents)
