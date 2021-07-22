@@ -12,16 +12,17 @@ import android.widget.*
 import com.example.knuhack.dto.ProfileForm
 import android.content.Intent
 import android.net.Uri
+import android.view.View
 import com.bumptech.glide.Glide
 
 
-class MyPage : AppCompatActivity() {
+class ProfileActivity : AppCompatActivity() {
     val mContext  = this
 
     // data
     private lateinit var myProfile : Profile
     private lateinit var nickname : String
-    private var id : Long = 0
+    private var id : Long = -1
 
     // view
     private lateinit var profileImageView: ImageView
@@ -33,12 +34,13 @@ class MyPage : AppCompatActivity() {
     private lateinit var githubImageView : ImageView
     private lateinit var velogImageView : ImageView
 
+    private lateinit var changeButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
 
         initView()
-
 
         id = intent.getLongExtra("id", -1)
         intent.getStringExtra("nickname")?.let {
@@ -56,6 +58,12 @@ class MyPage : AppCompatActivity() {
 
         githubImageView = findViewById<ImageView>(R.id.profile_github)
         velogImageView = findViewById<ImageView>(R.id.profile_velog)
+
+        changeButton = findViewById<Button>(R.id.profile_change_btn)
+        if(id == -1L) changeButton.visibility = View.INVISIBLE
+        changeButton.setOnClickListener {
+            setChangeDialog()
+        }
     }
 
     private fun getMyProfile(nickname : String){
@@ -101,6 +109,25 @@ class MyPage : AppCompatActivity() {
     }
 
     private fun createMyProfile(member_id : Long, language : String, interest : String, githubLink : String, blogLink : String, imageLink : String){
+        RestApiService.instance.createProfile(member_id, ProfileForm(language, interest, githubLink, blogLink, imageLink)).enqueue(object : Callback<ApiResult<String>>{
+            override fun onResponse(call : Call<ApiResult<String>>, response: Response<ApiResult<String>>) {
+                Toast.makeText(mContext, "프로필을 성공적으로 생성하였습니다.", Toast.LENGTH_SHORT).show()
+                response.body()?.let{
+                    Log.i("profile created", it.response)
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResult<String>>, t: Throwable) {
+                Toast.makeText(mContext, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun setChangeDialog(){
+
+    }
+
+    private fun changeMyProfile(member_id : Long, language : String, interest : String, githubLink : String, blogLink : String, imageLink : String){
         RestApiService.instance.createProfile(member_id, ProfileForm(language, interest, githubLink, blogLink, imageLink)).enqueue(object : Callback<ApiResult<String>>{
             override fun onResponse(call : Call<ApiResult<String>>, response: Response<ApiResult<String>>) {
                 Toast.makeText(mContext, "프로필을 성공적으로 생성하였습니다.", Toast.LENGTH_SHORT).show()
