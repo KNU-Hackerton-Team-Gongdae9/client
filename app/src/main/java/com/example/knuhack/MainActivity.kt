@@ -130,5 +130,22 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
+//
+//    private fun getBoardList(boardType: String){
+//        RestApiService.instance.findBoardByCategory(boardType).enqueue(object : Callback<ApiResult<List<Board>>>{
+//            override fun onResponse(call: Call<ApiResult<List<Board>>>, response: Response<ApiResult<List<Board>>>) {
+//                items.clear()
+//
+//                response.body()?.response?.let{
+//                    items.addAll(it)
+//                    //        어답터 설정
+//                    listView.adapter = MyCustomAdapter(items)
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ApiResult<List<Board>>>, t: Throwable) {
+//                Toast.makeText(mContext, t.message, Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }
 }
