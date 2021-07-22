@@ -1,16 +1,15 @@
 package com.example.knuhack
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.knuhack.dto.ApiResult
+import com.example.knuhack.dto.SignInForm
 import com.example.knuhack.entity.Board
 import com.example.knuhack.entity.Comment
 import retrofit2.Call
@@ -31,12 +30,19 @@ class PostDetail : AppCompatActivity() {
         val title= intent.getStringExtra("title")
         val author = intent.getStringExtra("author")
 
+        val commentText = findViewById<EditText>(R.id.input_id) as EditText
         val text1 = findViewById<TextView>(R.id.postTitle) as TextView
         text1.setText(title)
         val text2 = findViewById<TextView>(R.id.detailContent) as TextView
         text2.setText(content)
         val text3 = findViewById<TextView>(R.id.writer) as TextView
         text3.setText(author)
+
+        val commentbtn = findViewById<Button>(R.id.writeCommentBtn) as Button
+        commentbtn.setOnClickListener {
+            val comment = commentText.text.toString().trim { it <= ' ' }
+            writeComment(comment)
+        }
 
         listView = findViewById<ListView>(R.id.commentlistview)
 
@@ -108,6 +114,34 @@ class PostDetail : AppCompatActivity() {
 
             override fun onFailure(call: Call<ApiResult<List<Comment>>>, t: Throwable) {
                 Toast.makeText(mContext, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    fun writeComment(content: String) {
+        RestApiService.instance.writeComment().enqueue(object : Callback<ApiResult<String>> {
+            override fun onResponse(call: Call<ApiResult<String>>, response: Response<ApiResult<String>>) {
+                //내가 할거
+                RestApiService.instance.getUserId().enqueue(object : Callback<Long>{
+                    override fun onResponse(call: Call<Long>, response: Response<Long>) {
+                        Toast.makeText(mContext,"로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                        response.body()?.let { Log.i("get user id", it.toString()) }
+
+                        intent = Intent(mContext, MainActivity::class.java)
+                        response.body()?.let { intent.getLongExtra("userId", it) }
+                        startActivity(intent)
+                        finish()
+                    }
+
+                    override fun onFailure(call: Call<Long>, t: Throwable) {
+                        t.message?.let { Log.e("failed get user id", it) }
+                    }
+                })
+            }
+
+            override fun onFailure(call: Call<ApiResult<String>>, t: Throwable) {
+                Toast.makeText(mContext,"로그인에 x하였습니다.", Toast.LENGTH_SHORT).show()
+                t.message?.let { Log.e("login failed", it) }
             }
         })
     }
