@@ -114,6 +114,13 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             when(it.itemId)
             {
+                R.id.menu_message -> {
+                    val intent = Intent(this, MessageActivity::class.java)
+                    intent.putExtra("nickname", nickname)
+                    intent.putExtra("userId", id)
+                    startActivity (intent)
+                }
+
                 R.id.menu_profile -> {
                     val intent = Intent(this, ProfileActivity::class.java)
                     intent.putExtra("nickname", nickname)

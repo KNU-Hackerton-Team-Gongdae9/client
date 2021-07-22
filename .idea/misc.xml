@@ -4,18 +4,27 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.18645833333333334" />
+        <entry key="app/src/main/res/drawable-v24/reply_circle.xml" value="0.15989583333333332" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.18645833333333334" />
+        <entry key="app/src/main/res/drawable/message_background.xml" value="0.15989583333333332" />
         <entry key="app/src/main/res/layout/activity_find_team.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33229166666666665" />
-        <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.21892925430210325" />
+        <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_order_bottom_dialog_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_post_detail.xml" value="0.19927536231884058" />
         <entry key="app/src/main/res/layout/activity_post_list.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/activity_write_post.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/activity_write_post2.xml" value="0.19927536231884058" />
+        <entry key="app/src/main/res/layout/actvity_all_message_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/actvity_one_message_page.xml" value="0.2101401556872401" />
+        <entry key="app/src/main/res/layout/actvity_send_message_page.xml" value="0.13854166666666667" />
         <entry key="app/src/main/res/layout/drawer_header.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/item_comment_list.xml" value="0.16394927536231885" />
+        <entry key="app/src/main/res/layout/item_message_list_main.xml" value="0.27806002831499527" />
+        <entry key="app/src/main/res/layout/item_message_main_list_receive.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_message_main_list_send.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_post_list.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/layout/item_reply_list.xml" value="0.16394927536231885" />
         <entry key="app/src/main/res/layout/main_layout.xml" value="0.33229166666666665" />
@@ -24,7 +33,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

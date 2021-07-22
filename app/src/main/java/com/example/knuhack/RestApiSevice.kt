@@ -17,16 +17,16 @@ interface RestApiService {
     @GET("/api/comment/findContentsByBoardId")fun findContentsByBoardId(@Query("boardId")boardId: Long) : Call<ApiResult<List<Comment>>>
 
     @POST("/message/from/{sender_id}/to/{receiver_nickname}")fun send(@Body messageForm: MessageForm, @Path("sender_id")sender_id:Long, @Path("receiver_nickname") receiver_nickname:String) : Call<ApiResult<String>>
-    @GET("/message/received/user/{user_id}")fun getReceived(@Path("user_id")user_id:Long) : Call<ApiResult<Message>>
-    @GET("/message/sent/user/{user_id}") fun getSent(@Path("user_id")user_id:Long) :  Call<ApiResult<Message>>
+    @GET("/message/received/user/{user_id}")fun getReceived(@Path("user_id")user_id:Long) : Call<ApiResult<List<Message>>>
+    @GET("/message/sent/user/{user_id}") fun getSent(@Path("user_id")user_id:Long) :  Call<ApiResult<List<Message>>>
 
     @GET("/profile/user/{nickname}")fun getProfile(@Path("nickname") nickname:String) : Call<ApiResult<Profile>>
     @POST("/profile/user/{member_id}")fun createProfile(@Path("member_id")member_id:Long,@Body profileForm: ProfileForm) : Call<ApiResult<String>>
     @PUT("/profile/user/{member_id}")fun changeProfile(@Path("member_id")member_id:Long,@Body profileForm: ProfileForm): Call<ApiResult<String>>
 
-    @PUT("/reply/{reply_id}")fun editReply(@Path("reply_id")reply_id:Long,@Body replyForm:ReplyForm):Call<ApiResult<String>>
+    @PUT("/reply/{reply_id}")fun editReply(@Path("reply_id")reply_id:Long,@Body replyForm:ReplyForm):Call<ApiResult<Reply>>
     @DELETE("/reply/{reply_id}")fun deleteReply(@Path("reply_id")reply_id:Long) : Call<ApiResult<String>>
-    @POST("/reply/comment/{comment_id}")fun writeReply(@Path("comment_id")comment_id:Long,@Body replyForm: ReplyForm) : Call<ApiResult<String>>
+    @POST("/reply/comment/{comment_id}")fun writeReply(@Path("comment_id")comment_id:Long,@Body replyForm: ReplyForm) : Call<ApiResult<Reply>>
 
     @POST("/user/signIn")fun signIn(@Body signInForm: SignInForm):Call <ApiResult<Member>>
     @POST("/user/signUp")fun signUp(@Body signUpForm: SignUpForm):Call <ApiResult<String>>
