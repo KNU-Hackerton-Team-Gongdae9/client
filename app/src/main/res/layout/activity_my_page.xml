@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="90dp"
@@ -15,7 +21,7 @@
         android:paddingEnd="24dp">
 
         <TextView
-            android:id="@+id/nickname"
+            android:id="@+id/profile_nickname"
             android:text="이현섭"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,6 +35,7 @@
             android:layout_weight="1" />
 
         <Button
+            android:id="@+id/profile_nickname_change_btn"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:text="이름 바꾸기"
@@ -59,6 +66,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/profile_language"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="이현섭"
@@ -81,6 +89,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/profile_interest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -102,14 +111,19 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
+                android:id="@+id/profile_github"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="72dp"
-                android:text="나"
-                android:textSize="16sp" />
+                android:layout_weight="1"
+                custom:srcCompat="@drawable/gihub" />
 
+            <ImageView
+                android:id="@+id/profile_velog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                custom:srcCompat="@drawable/velog2" />
         </LinearLayout>
 
         <View
