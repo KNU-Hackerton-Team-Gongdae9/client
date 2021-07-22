@@ -8,8 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.knuhack.dto.ApiResult
+import com.example.knuhack.dto.MemberDto
 import com.example.knuhack.dto.SignInForm
-import com.example.knuhack.entity.Board
+import com.example.knuhack.entity.Member
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,27 +49,20 @@ class Login : AppCompatActivity() {
     }
 
     fun requestLogin(id: String, pw: String) {
-        RestApiService.instance.signin(SignInForm(id,pw)).enqueue(object : Callback<ApiResult<String>> {
-            override fun onResponse(call: Call<ApiResult<String>>, response: Response<ApiResult<String>>) {
-                //내가 할거
-                RestApiService.instance.getUserId().enqueue(object : Callback<Long>{
-                    override fun onResponse(call: Call<Long>, response: Response<Long>) {
-                        Toast.makeText(mContext,"로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-                        response.body()?.let { Log.i("get user id", it.toString()) }
+        RestApiService.instance.signIn(SignInForm(id,pw)).enqueue(object : Callback<ApiResult<Member>> {
+            override fun onResponse(call: Call<ApiResult<Member>>, response: Response<ApiResult<Member>>) {
 
-                        intent = Intent(mContext, MainActivity::class.java)
-                        response.body()?.let { intent.getLongExtra("userId", it) }
-                        startActivity(intent)
-                        finish()
-                    }
-
-                    override fun onFailure(call: Call<Long>, t: Throwable) {
-                        t.message?.let { Log.e("failed get user id", it) }
-                    }
-                })
+                Toast.makeText(mContext,"로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                response.body()?.let {
+                    intent = Intent(mContext, MainActivity::class.java)
+                    intent.putExtra("id", it.response.id)
+                    intent.putExtra("nickname", it.response.nickname)
+                    startActivity (intent)
+                    finish()
+                }
             }
 
-            override fun onFailure(call: Call<ApiResult<String>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResult<Member>>, t: Throwable) {
                 Toast.makeText(mContext,"로그인에 x하였습니다.", Toast.LENGTH_SHORT).show()
                 t.message?.let { Log.e("login failed", it) }
             }
