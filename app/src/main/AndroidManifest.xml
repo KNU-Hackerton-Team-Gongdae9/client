@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KnuHack"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ReplyList"></activity>
+        <activity android:name=".OrderBottomDialogFragment"></activity>
+        <activity android:name=".ReplyList" />
         <activity android:name=".CommentDetail" />
         <activity android:name=".CommentList" />
         <activity android:name=".PostDetail" />

@@ -44,7 +44,7 @@ class PostDetail : AppCompatActivity() {
         text1.setText(title)
         val text2 = findViewById<TextView>(R.id.detailContent) as TextView
         text2.setText(content)
-        val text3 = findViewById<TextView>(R.id.writer) as TextView
+        val text3 = findViewById<TextView>(R.id.writer_postDetail) as TextView
         text3.setText(author)
 
         val commentbtn = findViewById<Button>(R.id.writeCommentBtn) as Button
@@ -140,9 +140,9 @@ class PostDetail : AppCompatActivity() {
             if(items[position].type.equals("COMMENT"))
             {
                 val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_comment_list, null)
-                val author = view.findViewById<TextView>(R.id.userNickname)
+                val author = view.findViewById<TextView>(R.id.userNickname_comment)
                 author.text = items[position].author
-                val content = view.findViewById<TextView>(R.id.contents)
+                val content = view.findViewById<TextView>(R.id.contents_comment)
                 content.text = items[position].content
 
                 return view
@@ -150,9 +150,9 @@ class PostDetail : AppCompatActivity() {
             else
             {
                 val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_reply_list, null)
-                val author = view.findViewById<TextView>(R.id.userNickname)
+                val author = view.findViewById<TextView>(R.id.userNickname_reply)
                 author.text = items[position].author
-                val content = view.findViewById<TextView>(R.id.contents)
+                val content = view.findViewById<TextView>(R.id.content_reply)
                 content.text = items[position].content
 
                 return view
