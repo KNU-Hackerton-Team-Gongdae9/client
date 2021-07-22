@@ -14,6 +14,7 @@ import com.example.knuhack.dto.ApiResult
 import com.example.knuhack.dto.CommentForm
 import com.example.knuhack.dto.ReplyForm
 import com.example.knuhack.entity.Comment
+import com.example.knuhack.entity.Reply
 import com.google.android.material.button.MaterialButton
 import retrofit2.Call
 import retrofit2.Callback
@@ -137,7 +138,7 @@ class PostDetail : AppCompatActivity() {
                 oItems[0] -> startProfileActivity(item.author)
                 oItems[1] -> sendMessage(item.author)
                 oItems[2] -> writeReply(item.commentId, userNickname) // TODO: item.commentId, 추가
-                oItems[3] -> edit()
+                oItems[3] -> edit(item.commentId, item.replyId, userNickname)
                 oItems[4] -> delete()
             }
 
@@ -162,8 +163,8 @@ class PostDetail : AppCompatActivity() {
             .create()
 
         val replyContent = dialogView.findViewById<EditText>(R.id.reply_content).text
-        val confirmBtn = dialogView.findViewById<MaterialButton>(R.id.writeReplyConfirmButton)
-        val cancelBtn = dialogView.findViewById<MaterialButton>(R.id.writeReplyCancelButton)
+        val confirmBtn = dialogView.findViewById<Button>(R.id.writeReplyConfirmButton)
+        val cancelBtn = dialogView.findViewById<Button>(R.id.writeReplyCancelButton)
 
         confirmBtn.setOnClickListener {
             alertDialog.dismiss()
@@ -179,9 +180,49 @@ class PostDetail : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun edit(){
+    private fun edit(commentId : Long, replyId: Long, nickname: String){
         Toast.makeText(mContext, "edit", Toast.LENGTH_LONG).show()
 
+        val dialogView = layoutInflater.inflate(R.layout.dialog_reply_update, null)
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        val confirmBtn = dialogView.findViewById<Button>(R.id.updateReplyConfirmButton)
+        val cancelBtn = dialogView.findViewById<Button>(R.id.updateReplyCancelButton)
+
+        confirmBtn.setOnClickListener {
+            val updatedContent = dialogView.findViewById<EditText>(R.id.reply_update_content).text
+            alertDialog.dismiss()
+            Log.d("입력 확인", "수정 내용 : $updatedContent")
+            updateReply(commentId, replyId, nickname, updatedContent.toString())
+        }
+
+        cancelBtn.setOnClickListener {
+            alertDialog.dismiss()
+            Log.d("답글 수정 취소 ", "답글 수정을 취소했습니다.")
+        }
+
+        alertDialog.show()
+    }
+
+
+    private fun updateReply(commentId: Long, replyId : Long, nickname: String, updatedContent: String) {
+        RestApiService.instance.editReply(replyId, ReplyForm(nickname, updatedContent)).enqueue(object : Callback<ApiResult<Reply>> {
+            override fun onResponse(call: Call<ApiResult<Reply>>, response: Response<ApiResult<Reply>>) {
+                response.body()?.let {
+                    Log.i("댓글 수정이 성공적으로 수행되었습니다.", it.toString())
+                    val customAdapter = CustomAdapter(mContext, items)
+                    listView.adapter = customAdapter
+                    customAdapter.addOne(CustomAdapter.AdapterItem(nickname, updatedContent, "REPLY", commentId, replyId))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResult<Reply>>, t: Throwable) {
+                Toast.makeText(mContext,"댓글 작성에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                t.message?.let { Log.e("comment writing failed", it) }
+            }
+        })
     }
 
     private fun delete(){
@@ -233,6 +274,11 @@ class PostDetail : AppCompatActivity() {
             }
 
         }
+
+        fun addOne(adapterItem: AdapterItem){
+            items.add(adapterItem)
+            notifyDataSetChanged()
+        }
     }
 
     private fun getCommentList(boardId : Long){
@@ -270,6 +316,9 @@ class PostDetail : AppCompatActivity() {
                 response.body()?.let {
                     Log.i("댓글 작성이 성공적으로 수행되었습니다.", it.toString())
                     commentText.setText("")
+                    val customAdapter = CustomAdapter(mContext, items)
+                    listView.adapter = customAdapter
+                    customAdapter.addOne(CustomAdapter.AdapterItem(nickname, content, "COMMENT", it.response.commentId, -1))
                 }
             }
 
@@ -281,14 +330,17 @@ class PostDetail : AppCompatActivity() {
     }
 
     private fun writeReply(commentId: Long, nickname: String, replyContent: String) {
-        RestApiService.instance.writeReply(commentId, ReplyForm(nickname, replyContent)).enqueue(object : Callback<ApiResult<String>> {
-            override fun onResponse(call: Call<ApiResult<String>>, response: Response<ApiResult<String>>) {
+        RestApiService.instance.writeReply(commentId, ReplyForm(nickname, replyContent)).enqueue(object : Callback<ApiResult<Reply>> {
+            override fun onResponse(call: Call<ApiResult<Reply>>, response: Response<ApiResult<Reply>>) {
                 response.body()?.let {
                     Log.i("[Response] ", it.toString())
+                    val customAdapter = CustomAdapter(mContext, items)
+                    listView.adapter = customAdapter
+                    customAdapter.addOne(CustomAdapter.AdapterItem(nickname, replyContent, "REPLY", commentId, 0)) // it.response.id
                 }
             }
 
-            override fun onFailure(call: Call<ApiResult<String>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResult<Reply>>, t: Throwable) {
                 Toast.makeText(mContext,"답글 작성에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                 t.message?.let { Log.e("reply writing failed", it) }
             }

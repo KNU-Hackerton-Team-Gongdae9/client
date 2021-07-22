@@ -56,13 +56,15 @@ class write_post : AppCompatActivity(), ItemClickListener {
             override fun onResponse(call: Call<ApiResult<Board>>, response: Response<ApiResult<Board>>) {
                 response.body()?.let {
                     Log.i("게시물 작성이 성공적으로 수행되었습니다.", it.toString())
-
+                    startActivity(intent)
+                    finish()
                 }
             }
 
             override fun onFailure(call: Call<ApiResult<Board>>, t: Throwable) {
                 Toast.makeText(mContext, "게시물 작성에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                 t.message?.let { Log.e("comment writing failed", it) }
+                finish()
             }
         })
     }

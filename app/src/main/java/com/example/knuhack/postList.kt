@@ -37,6 +37,8 @@ class postList : AppCompatActivity() {
             val intent = Intent(this, write_post::class.java)
             intent.putExtra("nickname", userNickname)
             startActivity(intent)
+            val adapter = MyCustomAdapter(items)
+            adapter.notifyDataSetChanged()
         })
 
 //        Item click listener
@@ -53,6 +55,7 @@ class postList : AppCompatActivity() {
 
             startActivity(intent)
         }
+
 
     }
     private class MyCustomAdapter(private val items: MutableList<Board>) : BaseAdapter() {
