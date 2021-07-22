@@ -34,7 +34,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var githubImageView : ImageView
     private lateinit var velogImageView : ImageView
 
-    private lateinit var changeButton: Button
+    private lateinit var changeButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,13 +53,13 @@ class ProfileActivity : AppCompatActivity() {
         profileImageView = findViewById<ImageView>(R.id.profile_image)
 
         nicknameTextView = findViewById<TextView>(R.id.profile_nickname)
-        langTextView = findViewById<TextView>(R.id.profile_language)
-        interestTextView = findViewById<TextView>(R.id.profile_interest)
+        langTextView = findViewById<TextView>(R.id.profile_Skill)
+        interestTextView = findViewById<TextView>(R.id.profile_major)
 
         githubImageView = findViewById<ImageView>(R.id.profile_github)
         velogImageView = findViewById<ImageView>(R.id.profile_velog)
 
-        changeButton = findViewById<Button>(R.id.profile_change_btn)
+        changeButton = findViewById<ImageButton>(R.id.menu_btn_profile)
         if(id == -1L) changeButton.visibility = View.INVISIBLE
         changeButton.setOnClickListener {
             setChangeDialog()
