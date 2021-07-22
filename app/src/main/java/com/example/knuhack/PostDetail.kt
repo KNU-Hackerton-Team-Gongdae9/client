@@ -16,7 +16,7 @@ import com.example.knuhack.entity.Comment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+import com.example.knuhack.entity.Reply
 
 class PostDetail : AppCompatActivity() {
     val items : ArrayList<Comment> = ArrayList<Comment>()
@@ -40,14 +40,8 @@ class PostDetail : AppCompatActivity() {
         val text3 = findViewById<TextView>(R.id.writer) as TextView
         text3.setText(author)
 
-
         //댓글
-        //val items = mutableListOf<Comment>()
-
-        //items.add(CommentForm("나는 멋지다","가나다"))
-        //items.add(CommentForm("너는 멋지다","마바사"))
-        //items.add(CommentForm("너는 안멋지다","아자차"))
-        //items.add(CommentForm("나도 안멋지다","파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하파타하"))
+        val items = mutableListOf<test>()
 
         listView = findViewById<ListView>(R.id.commentlistview)
 
@@ -60,16 +54,30 @@ class PostDetail : AppCompatActivity() {
         override fun getCount(): Int = items.size
         override fun getItem(position: Int): Comment = items[position]
 
-
         override fun getItemId(position: Int): Long = position.toLong()
 
         override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
-            val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_comment_list, null)
-            val author = view.findViewById<TextView>(R.id.userNickname)
-            author.text = items[position].author
-            val content = view.findViewById<TextView>(R.id.contents)
-            content.text = items[position].content
-            return view
+            if(items[position].type==1)
+            {
+                val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_comment_list, null)
+                val author = view.findViewById<TextView>(R.id.userNickname)
+                author.text = items[position].author
+                val content = view.findViewById<TextView>(R.id.contents)
+                content.text = items[position].content
+
+                return view
+            }
+            else
+            {
+                val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_reply_list, null)
+                val author = view.findViewById<TextView>(R.id.userNickname)
+                author.text = items[position].author
+                val content = view.findViewById<TextView>(R.id.contents)
+                content.text = items[position].content
+
+                return view
+            }
+
         }
     }
 

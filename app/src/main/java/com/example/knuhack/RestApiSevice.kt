@@ -2,14 +2,9 @@ package com.example.knuhack
 
 
 import com.example.knuhack.dto.*
-import com.example.knuhack.entity.Board
-import com.example.knuhack.entity.Comment
-import com.example.knuhack.entity.Message
-import com.example.knuhack.entity.Profile
-import okhttp3.MultipartBody
+import com.example.knuhack.entity.*
 import retrofit2.Call
 import retrofit2.http.*
-import java.io.File
 
 interface RestApiService {
     @GET("/api/borad/{boardId}")fun getboard(@Path("boardId")boardId : Long) : Call<ApiResult<Board>>
@@ -33,7 +28,7 @@ interface RestApiService {
     @DELETE("/reply/{reply_id}")fun deleteReply(@Path("reply_id")reply_id:Long) : Call<ApiResult<String>>
     @POST("/reply/comment/{comment_id}")fun writeReply(@Path("comment_id")comment_id:Long,@Body replyForm: ReplyForm) : Call<ApiResult<String>>
 
-    @POST("/user/signIn")fun signin(@Body signInForm: SignInForm):Call <ApiResult<String>>
+    @POST("/user/signIn")fun signIn(@Body signInForm: SignInForm):Call <ApiResult<Member>>
     @POST("/user/signUp")fun signUp(@Body signUpForm: SignUpForm):Call <ApiResult<String>>
     @GET("/user/getUserId")fun getUserId():Call<Long>
 

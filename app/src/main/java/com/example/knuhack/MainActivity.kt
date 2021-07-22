@@ -29,10 +29,18 @@ class MainActivity : AppCompatActivity() {
     lateinit var  drawerLayout : DrawerLayout
     lateinit var navigationView: NavigationView
 
+    lateinit var nickname: String
+    var id : Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        id = intent.getLongExtra("id", -1)
+        intent.getStringExtra("nickname")?.let { nickname = it }
+
+//        nickname = intent.getStringExtra("nickname").toString()
+//        id = intent.getLongExtra("id", -1)
 
 //        val btn = findViewById<Button>(R.id.btn1) as Button
 //        btn.setOnClickListener(View.OnClickListener {
@@ -58,6 +66,12 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             when(it.itemId)
             {
+                R.id.menu_profile -> {
+                    val intent = Intent(this, MyPage::class.java)
+                    intent.putExtra("nickname", nickname)
+                    intent.putExtra("id", id)
+                    startActivity (intent)
+                }
 
                 R.id.menu_item1  -> {
                     val intent = Intent(this, postList::class.java)
