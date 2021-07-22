@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:id="@+id/back_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+<!--            <ImageView-->
+<!--                android:layout_width="15dp"-->
+<!--                android:layout_height="15dp"-->
+<!--                android:src="@drawable/back" />-->
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/widget_title_bar_basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:letterSpacing="-0.1"
+            android:text="회원가입"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginBottom="36dp"
+                android:text="회원가입"
+                android:textColor="#171717"
+                android:textSize="23sp">
+
+            </TextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/input_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@android:color/transparent"
+                    android:hint="아이디"
+                    android:layout_weight="1"
+                    android:inputType="textMultiLine"
+                    android:singleLine="false"
+                    android:textSize="14sp">
+                </EditText>
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="100dp"
+                    android:layout_gravity="center"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="15dp"
+                    android:textSize="10sp"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/white"
+                    android:text="중복체크" />
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e9e9e9"></View>
+
+            <TextView
+                android:id="@+id/input_id_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="이메일을 입력하세요."
+                android:textColor="#6e6e6e"
+                android:textSize="11.8sp">
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/input_pw"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15.3dp"
+                android:layout_marginRight="15dp"
+                android:background="@android:color/transparent"
+                android:hint="비밀번호 (영문, 숫자 혼합 8자 이상)"
+                android:inputType="textMultiLine"
+                android:singleLine="false"
+                android:textSize="14sp">
+
+            </EditText>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e9e9e9"></View>
+
+            <EditText
+                android:id="@+id/input_pw_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="15dp"
+                android:background="@android:color/transparent"
+                android:hint="비밀번호 확인"
+                android:inputType="textMultiLine"
+                android:singleLine="false"
+                android:textSize="14sp">
+
+            </EditText>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e9e9e9"></View>
+
+            <EditText
+                android:id="@+id/input_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="15dp"
+                android:background="@android:color/transparent"
+                android:hint="이름"
+                android:inputType="textMultiLine"
+                android:singleLine="false"
+                android:textSize="14sp">
+
+            </EditText>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e9e9e9"></View>
+
+            <EditText
+                android:id="@+id/input_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="15dp"
+                android:background="@android:color/transparent"
+                android:hint="닉네임"
+                android:inputType="textMultiLine"
+                android:singleLine="false"
+                android:textSize="14sp">
+
+            </EditText>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e9e9e9"></View>
+
+            <EditText
+                android:id="@+id/input_phone"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="15dp"
+                android:background="@android:color/transparent"
+                android:hint="휴대폰번호"
+                android:inputType="textMultiLine"
+                android:singleLine="false"
+                android:textSize="14sp"></EditText>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="#e9e9e9"></View>
+
+            <EditText
+                android:id="@+id/input_student_number"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@android:color/transparent"
+                android:hint="학번"
+                android:inputType="textMultiLine"
+                android:singleLine="false"
+                android:textSize="14sp"></EditText>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="#e9e9e9"></View>
+
+            <EditText
+                android:id="@+id/input_grade"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@android:color/transparent"
+                android:hint="학년"
+                android:inputType="textMultiLine"
+                android:singleLine="false"
+                android:textSize="14sp"></EditText>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="#e9e9e9"></View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="전공 선택"
+                android:textColor="#6e6e6e"
+                android:textSize="11.8sp">
+
+            </TextView>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/global"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="글로벌소프트웨어"
+                        android:textColor="#171717" />
+
+                    <RadioButton
+                        android:id="@+id/computer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="컴퓨터학부"
+                        android:textColor="#171717" />
+                </LinearLayout>
+
+            </RadioGroup>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="14sp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="20dp"
+                android:background="#000000"></View>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,42 @@
+package com.example.knuhack
+
+
+import com.example.knuhack.dto.*
+import com.example.knuhack.entity.Board
+import com.example.knuhack.entity.Comment
+import com.example.knuhack.entity.Message
+import com.example.knuhack.entity.Profile
+import okhttp3.MultipartBody
+import retrofit2.Call
+import retrofit2.http.*
+import java.io.File
+
+interface RestApiService {
+    @GET("/api/borad/{boardId}")fun getboard(@Path("boardId")boardId : Long) : Call<ApiResult<Board>>
+    @GET("/api/board/findAuthor")fun findBoardByAuthor(@Query("author")author:String) : Call<ApiResult<List<Board>>>
+    @GET("/api/board/findCategory")fun findBoardByCategory(@Query("category")category:String) : Call<ApiResult<List<Board>>>
+    @GET("/api/board/findTitle")fun findBoardByTitle(@Query("title")title:String) :  Call<ApiResult<List<Board>>>
+    @POST("/api/board/write")fun writeBoard(@Body boardForm:BoardForm) : Call<ApiResult<Board>>
+
+    @POST("/api/comment/wirte/{boardId}")fun writeComment(@Path("boardId")boardId:Long,@Body commentForm: CommentForm) : Call<ApiResult<Comment>>
+
+    @POST("/message/from/{sender_id}/to/{receiver_nickname}")fun send(@Body messageForm: MessageForm, @Path("sender_id")sender_id:Long, @Path("receiver_nickname") receiver_nickname:String) : Call<ApiResult<String>>
+    @GET("/message/received/user/{user_id}")fun getReceived(@Path("user_id")user_id:Long) : Call<ApiResult<Message>>
+    @GET("/message/sent/user/{user_id}") fun getSent(@Path("user_id")user_id:Long) :  Call<ApiResult<Message>>
+
+    @GET("/profile/user/{nickname}")fun getProfile(@Path("nickname") nickname:String) : Call<ApiResult<Profile>>
+    @POST("/profile/user/{member_id}")fun createProfile(@Path("member_id")member_id:Long,@Body profileForm: ProfileForm) : Call<ApiResult<String>>
+    @PUT("/profile/user/{member_id}")fun changeProfile(@Path("member_id")member_id:Long,@Body profileForm: ProfileForm): Call<ApiResult<String>>
+
+    @PUT("/reply/{reply_id}")fun editReply(@Path("reply_id")reply_id:Long,@Body replyForm:ReplyForm):Call<ApiResult<String>>
+    @DELETE("/reply/{reply_id}")fun deleteReply(@Path("reply_id")reply_id:Long) : Call<ApiResult<String>>
+    @POST("/reply/comment/{comment_id}")fun writeReply(@Path("comment_id")comment_id:Long,@Body replyForm: ReplyForm) : Call<ApiResult<String>>
+
+    @POST("/user/signIn")fun signin(@Body signInForm: SignInForm):Call <ApiResult<String>>
+    @POST("/user/signUp")fun signUp(@Body signUpForm: SignUpForm):Call <ApiResult<String>>
+    @GET("/user/getUserId")fun getUserId():Call<Long>
+
+    companion object {
+        val instance = RestApiServiceGenerator.createService(RestApiService::class.java)
+    }
+}

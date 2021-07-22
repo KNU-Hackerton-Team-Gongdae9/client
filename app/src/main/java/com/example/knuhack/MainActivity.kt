@@ -1,0 +1,87 @@
+package com.example.knuhack
+
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.example.knuhack.dto.ApiResult
+import com.example.knuhack.dto.SignInForm
+import com.google.android.material.navigation.NavigationView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
+
+class MainActivity : AppCompatActivity() {
+    lateinit var toggle : ActionBarDrawerToggle
+
+    lateinit var  drawerLayout : DrawerLayout
+    lateinit var navigationView: NavigationView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+
+//        val btn = findViewById<Button>(R.id.btn1) as Button
+//        btn.setOnClickListener(View.OnClickListener {
+//            val intent = Intent(this, Login::class.java)
+//            startActivity(intent)
+//        })
+//        val btn2 = findViewById<Button>(R.id.btn2) as Button
+//        btn2.setOnClickListener(View.OnClickListener {
+//            val intent = Intent(this, SignUp::class.java)
+//            startActivity(intent)
+//        })
+
+
+        drawerLayout  = findViewById(R.id.drawerLayout)
+        navigationView = findViewById(R.id.nav_view)
+
+        toggle = ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        navigationView.setNavigationItemSelectedListener {
+            when(it.itemId)
+            {
+
+                R.id.menu_item1  -> {
+                    val intent = Intent(this, postList::class.java)
+                    startActivity (intent)
+                }
+                //R.id.menu_item2 -> Toast.makeText(applicationContext, "Item 1 click",Toast.LENGTH_SHORT).show()
+              //  R.id.menu_item3 -> Toast.makeText(applicationContext, "Item 1 click",Toast.LENGTH_SHORT).show()
+            }
+            true
+        }
+
+
+//        intent = Intent(mContext, postList::class.java)
+//        intent.putExtra("category", "FREE")
+//        startActivity(intent)
+//        finish()
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(toggle.onOptionsItemSelected(item)){
+            true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+}
