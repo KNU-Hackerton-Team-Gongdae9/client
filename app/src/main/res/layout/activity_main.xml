@@ -43,7 +43,7 @@
 
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/textView_freeBoard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="자유게시판"
@@ -54,7 +54,7 @@
 
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/textView_QnA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="QnA"
@@ -63,7 +63,7 @@
                     android:layout_marginRight="15dp"/>
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/textView_team"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="팀 프로젝트 게시판"
@@ -72,14 +72,13 @@
                     android:layout_marginRight="15dp"/>
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/texView_study"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="스터디 게시판"
                     android:layout_gravity="center"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"/>
-
             </LinearLayout>
 
         </LinearLayout>
@@ -94,7 +93,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2">
-
             </ListView>
         </LinearLayout>
 

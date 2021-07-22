@@ -20,6 +20,9 @@ class postList : AppCompatActivity() {
     val items : ArrayList<Board> = ArrayList<Board>()
     val mContext  = this
     lateinit var listView: ListView
+    var userId : Long = -1
+    lateinit var userNickname : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_list)
@@ -32,10 +35,10 @@ class postList : AppCompatActivity() {
 
 
         intent.getStringExtra("category")?.let { getBoardList(it) }
-
         listView = findViewById<ListView>(R.id.listview)
 
-
+        userId = intent.getLongExtra("userId", -1)
+        intent.getStringExtra("nickname")?.let { userNickname = it }
 
 //        Item click listener
         listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
@@ -46,6 +49,9 @@ class postList : AppCompatActivity() {
             intent.putExtra("author",item.author)
             intent.putExtra("content",item.content)
             intent.putExtra("category",item.category)
+            intent.putExtra("userId", userId)
+            intent.putExtra("nickname", userNickname)
+
             startActivity(intent)
         }
 
