@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.knuhack.dto.ApiResult
+import com.example.knuhack.dto.CommentForm
 import com.example.knuhack.dto.SignInForm
 import com.example.knuhack.entity.Board
 import com.example.knuhack.entity.Comment
@@ -26,11 +27,13 @@ class PostDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_detail)
 
+        val boardId = intent.getLongExtra("boardId",0)
         val content = intent.getStringExtra("content") // Intent에서 Key를 email로 가지고 있는 값 가져오기
         val title= intent.getStringExtra("title")
         val author = intent.getStringExtra("author")
+        var myNickname = intent.getStringExtra("myNickname")
 
-        val commentText = findViewById<EditText>(R.id.input_id) as EditText
+        val commentText = findViewById<EditText>(R.id.commentEdit) as EditText
         val text1 = findViewById<TextView>(R.id.postTitle) as TextView
         text1.setText(title)
         val text2 = findViewById<TextView>(R.id.detailContent) as TextView
@@ -39,16 +42,18 @@ class PostDetail : AppCompatActivity() {
         text3.setText(author)
 
         val commentbtn = findViewById<Button>(R.id.writeCommentBtn) as Button
+
         commentbtn.setOnClickListener {
-            val comment = commentText.text.toString().trim { it <= ' ' }
-            writeComment(comment)
+            val content = commentText.text.toString().trim { it <= ' ' }
+            Log.i("가져온 텍스트 : ", content)
+            if (myNickname != null) {
+                writeComment(boardId, myNickname, content)
+            }
         }
 
         listView = findViewById<ListView>(R.id.commentlistview)
 
-        intent.getLongExtra("boardId",0)?.let {
-            getCommentList(it)
-        }
+        getCommentList(boardId)
     }
 
     class CustomAdapter(private val items: MutableList<AdapterItem>) : BaseAdapter() {
@@ -118,30 +123,15 @@ class PostDetail : AppCompatActivity() {
         })
     }
 
-    fun writeComment(content: String) {
-        RestApiService.instance.writeComment().enqueue(object : Callback<ApiResult<String>> {
-            override fun onResponse(call: Call<ApiResult<String>>, response: Response<ApiResult<String>>) {
-                //내가 할거
-                RestApiService.instance.getUserId().enqueue(object : Callback<Long>{
-                    override fun onResponse(call: Call<Long>, response: Response<Long>) {
-                        Toast.makeText(mContext,"로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-                        response.body()?.let { Log.i("get user id", it.toString()) }
-
-                        intent = Intent(mContext, MainActivity::class.java)
-                        response.body()?.let { intent.getLongExtra("userId", it) }
-                        startActivity(intent)
-                        finish()
-                    }
-
-                    override fun onFailure(call: Call<Long>, t: Throwable) {
-                        t.message?.let { Log.e("failed get user id", it) }
-                    }
-                })
+    private fun writeComment(boardId : Long, nickname: String, content: String) {
+        RestApiService.instance.writeComment(boardId, CommentForm(content, nickname)).enqueue(object : Callback<ApiResult<Comment>> {
+            override fun onResponse(call: Call<ApiResult<Comment>>, response: Response<ApiResult<Comment>>) {
+                response.body()?.let { Log.i("댓글 작성이 성공적으로 수행되었습니다.", it.toString())}
             }
 
-            override fun onFailure(call: Call<ApiResult<String>>, t: Throwable) {
-                Toast.makeText(mContext,"로그인에 x하였습니다.", Toast.LENGTH_SHORT).show()
-                t.message?.let { Log.e("login failed", it) }
+            override fun onFailure(call: Call<ApiResult<Comment>>, t: Throwable) {
+                Toast.makeText(mContext,"댓글 작성에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                t.message?.let { Log.e("comment writing failed", it) }
             }
         })
     }

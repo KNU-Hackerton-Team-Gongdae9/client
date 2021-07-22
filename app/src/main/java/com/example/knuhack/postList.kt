@@ -29,7 +29,7 @@ class postList : AppCompatActivity() {
         setContentView(R.layout.activity_post_list)
         
         intent.getStringExtra("category")?.let { getBoardList(it) }
-
+        val myNickname = intent.getStringExtra("nickname")
         listView = findViewById<ListView>(R.id.listview)
 
 
@@ -43,6 +43,7 @@ class postList : AppCompatActivity() {
             intent.putExtra("author",item.author)
             intent.putExtra("content",item.content)
             intent.putExtra("category",item.category)
+            intent.putExtra("myNickname",myNickname)
             startActivity(intent)
         }
 

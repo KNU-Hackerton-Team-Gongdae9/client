@@ -76,11 +76,15 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_item1  -> {
                     val intent = Intent(this, postList::class.java)
                     intent.putExtra("category", "FREE")
+                    intent.putExtra("nickname", nickname)
+                    intent.putExtra("id", id)
                     startActivity (intent)
                 }
                 R.id.menu_item2 -> {
                     val intent = Intent(this, postList::class.java)
                     intent.putExtra("category", "QNA")
+                    intent.putExtra("nickname", nickname)
+                    intent.putExtra("id", id)
                     startActivity (intent)
                 }
                 /*R.id.menu_item3 -> {
