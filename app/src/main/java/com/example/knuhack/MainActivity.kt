@@ -4,7 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 
@@ -28,16 +33,45 @@ class MainActivity : AppCompatActivity() {
 //        nickname = intent.getStringExtra("nickname").toString()
 //        id = intent.getLongExtra("id", -1)
 
-//        val btn = findViewById<Button>(R.id.btn1) as Button
-//        btn.setOnClickListener(View.OnClickListener {
-//            val intent = Intent(this, Login::class.java)
-//            startActivity(intent)
-//        })
-//        val btn2 = findViewById<Button>(R.id.btn2) as Button
-//        btn2.setOnClickListener(View.OnClickListener {
-//            val intent = Intent(this, SignUp::class.java)
-//            startActivity(intent)
-//        })
+        val image = findViewById<ImageView>(R.id.imageView) as ImageView
+        image.setImageDrawable(
+            ContextCompat.getDrawable(
+                applicationContext, // Context
+                R.drawable.free_board//drawable
+            ))
+        val btn = findViewById<TextView>(R.id.textView_freeBoard) as TextView
+        btn.setOnClickListener(View.OnClickListener {
+            image.setImageDrawable(
+                ContextCompat.getDrawable(
+                    applicationContext, // Context
+                    R.drawable.free_board//drawable
+                ))
+        })
+        val btn2 = findViewById<TextView>(R.id.textView_QnA) as TextView
+        btn2.setOnClickListener(View.OnClickListener {
+            image.setImageDrawable(
+                ContextCompat.getDrawable(
+                    applicationContext, // Context
+                    R.drawable.qna//drawable
+                ))
+        })
+        val btn3 = findViewById<TextView>(R.id.textView_team) as TextView
+        btn3.setOnClickListener(View.OnClickListener {
+            image.setImageDrawable(
+                ContextCompat.getDrawable(
+                applicationContext, // Context
+                R.drawable.team_project//drawable
+            ))
+        })
+        val btn4 = findViewById<TextView>(R.id.texView_study) as TextView
+        btn4.setOnClickListener(View.OnClickListener {
+            image.setImageDrawable(
+                ContextCompat.getDrawable(
+                    applicationContext, // Context
+                    R.drawable.study//drawable
+                ))
+        })
+
 
 
         drawerLayout  = findViewById(R.id.drawerLayout)
