@@ -16,7 +16,7 @@
 
 
         <ImageButton
-            android:id="@+id/cancel_button"
+            android:id="@+id/cancel_button_writePost"
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
@@ -29,7 +29,7 @@
             android:src="@drawable/cancel"/>
 
         <TextView
-            android:id="@+id/message_nickname"
+            android:id="@+id/textView_writePost"
             android:layout_width="0dp"
             android:textAlignment="center"
             android:layout_height="match_parent"
@@ -39,7 +39,7 @@
             android:text="글 쓰기" />
 
         <Button
-            android:id="@+id/message_button"
+            android:id="@+id/writeButton"
             android:layout_width="40dp"
             android:layout_height="35dp"
             android:layout_gravity="center"

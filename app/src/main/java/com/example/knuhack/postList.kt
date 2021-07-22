@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import com.example.knuhack.dto.ApiResult
 import com.example.knuhack.entity.Board
 import retrofit2.Call
@@ -13,10 +12,7 @@ import retrofit2.Response
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import com.example.knuhack.dto.BoardForm
 
 
@@ -24,15 +20,25 @@ class postList : AppCompatActivity() {
     val items : ArrayList<Board> = ArrayList<Board>()
     val mContext  = this
     lateinit var listView: ListView
+    var userId : Long = -1
+    lateinit var userNickname : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_list)
-        
-        intent.getStringExtra("category")?.let { getBoardList(it) }
 
+        val btn = findViewById<Button>(R.id.writebtn) as Button
+        btn.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, write_post::class.java)
+            startActivity(intent)
+        })
+
+
+        intent.getStringExtra("category")?.let { getBoardList(it) }
         listView = findViewById<ListView>(R.id.listview)
 
-
+        userId = intent.getLongExtra("userId", -1)
+        intent.getStringExtra("nickname")?.let { userNickname = it }
 
 //        Item click listener
         listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
@@ -43,6 +49,9 @@ class postList : AppCompatActivity() {
             intent.putExtra("author",item.author)
             intent.putExtra("content",item.content)
             intent.putExtra("category",item.category)
+            intent.putExtra("userId", userId)
+            intent.putExtra("nickname", userNickname)
+
             startActivity(intent)
         }
 
