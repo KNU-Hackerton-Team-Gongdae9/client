@@ -128,6 +128,7 @@ class ProfileActivity : AppCompatActivity() {
 
         changeButton.setOnClickListener {
             setChangeDialog()
+
         }
     }
 
@@ -146,6 +147,8 @@ class ProfileActivity : AppCompatActivity() {
         })
     }
 
+
+
     private fun setWithProfile(){
         nicknameTextView.text = nickname
 
@@ -153,8 +156,6 @@ class ProfileActivity : AppCompatActivity() {
         profile.mager?.let { majorTextView.text = it }
         profile.email?.let { emailTextView.text = it }
         profile.grade?.let { gradeTextView.text = it.toString() }
-
-
 
         profile.githubLink?.let{
             if(it.startsWith("http")) {
@@ -182,7 +183,11 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-//    private fun createMyProfile(member_id : Long, language : String, interest : String, githubLink : String, blogLink : String, imageLink : String){
+    override fun onResume() {
+        super.onResume()
+    }
+
+    //    private fun createMyProfile(member_id : Long, language : String, interest : String, githubLink : String, blogLink : String, imageLink : String){
 //        RestApiService.instance.createProfile(member_id, ProfileForm(language, interest, githubLink, blogLink, imageLink)).enqueue(object : Callback<ApiResult<String>>{
 //            override fun onResponse(call : Call<ApiResult<String>>, response: Response<ApiResult<String>>) {
 //                Toast.makeText(mContext, "프로필을 성공적으로 생성하였습니다.", Toast.LENGTH_SHORT).show()
@@ -228,7 +233,6 @@ class ProfileActivity : AppCompatActivity() {
         val cancelBtn = dialogView.findViewById<Button>(R.id.profile_update_cancle_btn)
 
         confirmBtn.setOnClickListener {
-            alertDialog.dismiss()
             nickname = nicknameEdit.text.toString()
             profile.email = emailEdit.text.toString()
             profile.grade = Integer.parseInt(gradeEdit.text.toString())
@@ -236,6 +240,7 @@ class ProfileActivity : AppCompatActivity() {
             profile.blogLink = blogEdit.text.toString()
             profile.githubLink = githubEdit.text.toString()
 
+            alertDialog.dismiss()
             changeMyProfile(ProfileForm(profile.email, profile.grade, nickname, profile.language, profile.githubLink, profile.blogLink))
         }
 

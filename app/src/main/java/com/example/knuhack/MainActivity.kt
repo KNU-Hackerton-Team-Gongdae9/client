@@ -13,7 +13,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.knuhack.dto.ApiResult
+import com.example.knuhack.dto.SignInForm
 import com.example.knuhack.entity.Board
+import com.example.knuhack.entity.Member
 import com.google.android.material.navigation.NavigationView
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     val mContext  = this
     lateinit var listView: ListView
     var findcategory = "FREE"
-
 
     lateinit var nickname: String
     var id : Long = 0
@@ -168,6 +169,12 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+
+    override fun onResume() {
+        super.onResume()
+
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)){
             true
@@ -207,8 +214,9 @@ class MainActivity : AppCompatActivity() {
             notifyDataSetChanged()
 
         }
-
     }
+
+
     private fun getBoardList(boardType: String){
         RestApiService.instance.findBoardByCategory(boardType).enqueue(object : Callback<ApiResult<List<Board>>> {
             override fun onResponse(call: Call<ApiResult<List<Board>>>, response: Response<ApiResult<List<Board>>>) {
