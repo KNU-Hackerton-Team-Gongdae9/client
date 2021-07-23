@@ -32,14 +32,14 @@ class postList : AppCompatActivity() {
         intent.getStringExtra("category")?.let { getBoardList(it) }
         listView = findViewById<ListView>(R.id.listview)
 
-        val btn = findViewById<Button>(R.id.writebtn) as Button
-        btn.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, write_post::class.java)
-            intent.putExtra("nickname", userNickname)
-            startActivity(intent)
-            val adapter = MyCustomAdapter(items)
-            adapter.notifyDataSetChanged()
-        })
+//        val btn = findViewById<Button>(R.id.writebtn) as Button
+//        btn.setOnClickListener(View.OnClickListener {
+//            val intent = Intent(this, write_post::class.java)
+//            intent.putExtra("nickname", userNickname)
+//            startActivity(intent)
+//            val adapter = MyCustomAdapter(items)
+//            adapter.notifyDataSetChanged()
+//        })
 
 //        Item click listener
         listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->

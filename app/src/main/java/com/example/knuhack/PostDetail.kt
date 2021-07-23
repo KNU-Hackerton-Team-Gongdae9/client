@@ -3,6 +3,7 @@ package com.example.knuhack
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -46,7 +47,7 @@ class PostDetail : AppCompatActivity() {
 
 
     // button
-    lateinit var writeCommentBtn : Button
+    lateinit var writeCommentBtn : ImageView
     lateinit var toAuthorBtn : ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +79,7 @@ class PostDetail : AppCompatActivity() {
         val text3 = findViewById<TextView>(R.id.writer_postDetail) as TextView
         text3.setText(author)
 
-        val commentbtn = findViewById<Button>(R.id.writeCommentBtn) as Button
+        val commentbtn = findViewById<ImageView>(R.id.writeCommentBtn) as ImageView
 
         commentbtn.setOnClickListener {
             val content = commentText.text.toString().trim { it <= ' ' }
@@ -98,7 +99,7 @@ class PostDetail : AppCompatActivity() {
         authorTextView = findViewById<TextView>(R.id.writer_postDetail) as TextView
         authorTextView.setText(author)
         listView = findViewById<ListView>(R.id.commentlistview)
-        writeCommentBtn = findViewById<Button>(R.id.writeCommentBtn)
+        writeCommentBtn = findViewById<ImageView>(R.id.writeCommentBtn)
         toAuthorBtn = findViewById<ImageButton>(R.id.menu_btn_postDetail)
     }
 
