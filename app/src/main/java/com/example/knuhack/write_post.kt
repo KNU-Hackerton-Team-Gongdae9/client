@@ -42,7 +42,9 @@ class write_post : AppCompatActivity(), ItemClickListener {
                 writeBoardRequest(nickname, category, title, content)
             }
         }
-
+        cancel_button.setOnClickListener{
+            finish()
+        }
 /*        val btn = findViewById<Button>(R.id.slect_board) as Button
         btn.setOnClickListener {
             openBottomSheet()

@@ -44,7 +44,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private lateinit var githubImageView : ImageView
     private lateinit var velogImageView : ImageView
-
+    private lateinit var backButtonView : Button
     private lateinit var changeButton: ImageButton
 
     //사이드바
@@ -122,6 +122,10 @@ class ProfileActivity : AppCompatActivity() {
         velogImageView = findViewById<ImageView>(R.id.profile_velog)
 
         changeButton = findViewById<ImageButton>(R.id.menu_btn_profile)
+        backButtonView = findViewById<Button>(R.id.back_button_profile)
+        backButtonView.setOnClickListener{
+            finish()
+        }
 
         if(id == -1L) changeButton.visibility = View.INVISIBLE
         else changeButton.visibility = View.VISIBLE
