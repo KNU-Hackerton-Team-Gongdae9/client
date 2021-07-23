@@ -38,10 +38,12 @@ class write_post : AppCompatActivity(), ItemClickListener {
             else if(category.equals("팀프로젝트")) category = "TEAM"
 
             Log.e("category 값 : ", category)
+            Log.e("asdf","asdf")
             if (nickname != null) {
                 writeBoardRequest(nickname, category, title, content)
             }
         }
+
         cancel_button.setOnClickListener{
             finish()
         }
@@ -56,9 +58,9 @@ class write_post : AppCompatActivity(), ItemClickListener {
 
         RestApiService.instance.writeBoard(BoardForm(category, title, content, nickname)).enqueue(object : Callback<ApiResult<Board>> {
             override fun onResponse(call: Call<ApiResult<Board>>, response: Response<ApiResult<Board>>) {
+                Log.e("asdf","asdf")
                 response.body()?.let {
                     Log.i("게시물 작성이 성공적으로 수행되었습니다.", it.toString())
-                    startActivity(intent)
                     finish()
                 }
             }

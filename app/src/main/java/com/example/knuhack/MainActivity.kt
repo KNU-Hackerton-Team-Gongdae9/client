@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         val btn5 = findViewById<ImageView>(R.id.menu_btn_main) as ImageView
         btn5.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, write_post::class.java)
+            intent.putExtra("nickname",nickname)
             startActivity(intent)
         })
 
