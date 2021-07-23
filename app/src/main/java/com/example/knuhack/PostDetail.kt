@@ -45,7 +45,7 @@ class PostDetail : AppCompatActivity() {
     lateinit var detailTextView : TextView
     lateinit var authorTextView: TextView
     lateinit var kindTextView : TextView
-
+    lateinit var backButton : ImageButton
     // button
     lateinit var writeCommentBtn : ImageView
     lateinit var toAuthorBtn : ImageButton
@@ -53,6 +53,11 @@ class PostDetail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_detail)
+        backButton= findViewById<ImageButton>(R.id.back_button1)
+        backButton.setOnClickListener{
+            finish()
+
+        }
 
         setDataWithIntent()
         findViews()
