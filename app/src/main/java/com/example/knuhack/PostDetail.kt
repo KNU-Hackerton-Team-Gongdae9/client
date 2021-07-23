@@ -34,6 +34,7 @@ class PostDetail : AppCompatActivity() {
     lateinit var content: String
     lateinit var tile: String
     lateinit var author: String
+    lateinit var category: String
     var boardId : Long = -1
 
     // view
@@ -44,7 +45,7 @@ class PostDetail : AppCompatActivity() {
     lateinit var titleTextView : TextView
     lateinit var detailTextView : TextView
     lateinit var authorTextView: TextView
-
+    lateinit var kindTextView : TextView
 
     // button
     lateinit var writeCommentBtn : ImageView
@@ -70,6 +71,7 @@ class PostDetail : AppCompatActivity() {
         intent.getStringExtra("content")?.let { content = it }  // Intent에서 Key를 email로 가지고 있는 값 가져오기
         intent.getStringExtra("title")?.let { title = it }
         intent.getStringExtra("author")?.let { author = it }
+        intent.getStringExtra("category")?.let{category=it}
 
         val commentText = findViewById<EditText>(R.id.commentEdit) as EditText
         val text1 = findViewById<TextView>(R.id.postTitle) as TextView
@@ -98,9 +100,25 @@ class PostDetail : AppCompatActivity() {
         detailTextView.setText(content)
         authorTextView = findViewById<TextView>(R.id.writer_postDetail) as TextView
         authorTextView.setText(author)
+        kindTextView = findViewById<TextView>( R.id.board_kind) as TextView
+        if(category=="FREE"){
+            kindTextView.setText("자유게시판")
+        }
+        else if(category=="QNA"){
+            kindTextView.setText("QnA")
+        }
+        else if(category=="TEAM"){
+            kindTextView.setText("팀 프로젝트 게시판")
+        }
+        else if(category=="STUDY"){
+            kindTextView.setText("스터디 게시판")
+        }
+
         listView = findViewById<ListView>(R.id.commentlistview)
         writeCommentBtn = findViewById<ImageView>(R.id.writeCommentBtn)
         toAuthorBtn = findViewById<ImageButton>(R.id.menu_btn_postDetail)
+        R.id.board_kind
+
     }
 
     private fun setClickListeners(){
@@ -127,7 +145,7 @@ class PostDetail : AppCompatActivity() {
                 oItems[0] -> startProfileActivity(author)
                 oItems[1] -> sendMessage(author)
             }
-        }).setCancelable(false).show();
+        }).setCancelable(true).show();
     }
 
     private fun setCommentDialog(item : CustomAdapter.AdapterItem) {
@@ -143,7 +161,7 @@ class PostDetail : AppCompatActivity() {
                 oItems[4] -> delete()
             }
 
-        }).setCancelable(false).show();
+        }).setCancelable(true).show();
     }
 
     private fun sendMessage(toNickname:String){

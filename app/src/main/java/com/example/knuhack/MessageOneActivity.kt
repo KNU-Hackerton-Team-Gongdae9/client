@@ -25,6 +25,8 @@ class MessageOneActivity : AppCompatActivity() {
     lateinit var otherNickname: String
     lateinit var time: String
 
+
+
     val mContext = this
     lateinit var listView: ListView
 
@@ -48,7 +50,7 @@ class MessageOneActivity : AppCompatActivity() {
         }
 
         listView = findViewById<ListView>(R.id.message_one_list)
-
+        message_nickname_one_message.setText(otherNickname)
         Toast.makeText(mContext, nickname + " " + otherNickname, Toast.LENGTH_SHORT).show()
         getMessageList()
     }

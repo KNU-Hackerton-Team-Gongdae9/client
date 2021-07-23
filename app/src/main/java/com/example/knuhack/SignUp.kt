@@ -42,7 +42,6 @@ class SignUp : AppCompatActivity(),View.OnClickListener {
 
     fun initView(){
         idEdit=findViewById<EditText>(R.id.input_id) as EditText
-        idCheck=findViewById<Button>(R.id.id_check_button) as Button
         pw=findViewById<EditText>(R.id.input_pw) as EditText
         pwConfirm=findViewById<EditText>(R.id.input_pw_confirm) as EditText
         name=findViewById<EditText>(R.id.input_name) as EditText
