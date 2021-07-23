@@ -8,8 +8,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/commentsEditContainer"
+
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints">
 
@@ -18,7 +20,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="3dp"
             android:orientation="horizontal"
-            android:layout_weight="6">
+     >
 
 
             <ImageButton
@@ -37,9 +39,12 @@
             <TextView
                 android:id="@+id/board_kind"
                 android:layout_width="0dp"
+                android:layout_gravity="center"
                 android:textAlignment="textStart"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:textSize="18dp"
                 android:text="현재 게시판 종류 "
@@ -102,7 +107,7 @@
         <LinearLayout
             android:id="@+id/titleContainer"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="50dp"
             android:orientation="horizontal"
             >
             <TextView
@@ -111,7 +116,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:textSize="18sp"
                 tools:text="postTitle"
                 />
@@ -130,17 +135,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:textSize="16sp"
                 tools:text="detailContent" />
 
         </LinearLayout>
 
-
         <ListView
-            android:layout_width="match_parent"
             android:id="@+id/commentlistview"
-            android:layout_height="match_parent">
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="48dp"
+            >
         </ListView>
 
 
@@ -177,16 +184,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />-->
-        <Button
+        <ImageButton
             android:id="@+id/writeCommentBtn"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:backgroundTint="@color/white"
+            android:background="@color/colorPrimary"
+            android:layout_marginRight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/baseline_comment_white_18dp"
+            >
 
-        </Button>
+        </ImageButton>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

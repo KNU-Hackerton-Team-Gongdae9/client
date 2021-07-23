@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,10 +20,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-<!--            <ImageView-->
-<!--                android:layout_width="15dp"-->
-<!--                android:layout_height="15dp"-->
-<!--                android:src="@drawable/back" />-->
+            <!--            <ImageView-->
+            <!--                android:layout_width="15dp"-->
+            <!--                android:layout_height="15dp"-->
+            <!--                android:src="@drawable/back" />-->
         </LinearLayout>
 
         <TextView
@@ -65,36 +65,27 @@
                 android:textSize="23sp">
 
             </TextView>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <EditText
                     android:id="@+id/input_id"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:hint="아이디"
-                    android:layout_weight="1"
                     android:inputType="textMultiLine"
                     android:singleLine="false"
-                    android:textSize="14sp">
-                </EditText>
-
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="100dp"
-                    android:layout_gravity="center"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="15dp"
-                    android:textSize="10sp"
-                    android:background="@color/colorPrimary"
-                    android:textColor="@color/white"
-                    android:text="중복체크" />
+                    android:textSize="14sp"></EditText>
 
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -202,18 +193,6 @@
                 android:layout_marginRight="15dp"
                 android:background="#e9e9e9"></View>
 
-            <EditText
-                android:id="@+id/input_phone"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginRight="15dp"
-                android:background="@android:color/transparent"
-                android:hint="휴대폰번호"
-                android:inputType="textMultiLine"
-                android:singleLine="false"
-                android:textSize="14sp"></EditText>
 
             <View
                 android:layout_width="match_parent"
@@ -275,6 +254,7 @@
                 android:textSize="11.8sp">
 
             </TextView>
+
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -285,21 +265,29 @@
                     android:layout_marginLeft="15dp"
                     android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/global"
+                    <RadioGroup
+                        android:id="@+id/radioGroup1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
 
-                        android:text="글로벌소프트웨어"
-                        android:textColor="#171717" />
+                        <RadioButton
+                            android:id="@+id/radio0"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="글로벌소프트웨어"
+                            android:textColor="#171717" />
 
-                    <RadioButton
-                        android:id="@+id/computer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:text="컴퓨터학부"
-                        android:textColor="#171717" />
+                        <RadioButton
+                            android:id="@+id/radio1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:text="컴퓨터학부"
+                            android:textColor="#171717" />
+
+                    </RadioGroup>
                 </LinearLayout>
 
             </RadioGroup>
@@ -312,6 +300,19 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="20dp"
                 android:background="#000000"></View>
+
+            <Button
+                android:id="@+id/join_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15.7dp"
+                android:background="@drawable/corner_radius_blue"
+                android:text="회원가입"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="bold"></Button>
 
         </LinearLayout>
     </ScrollView>

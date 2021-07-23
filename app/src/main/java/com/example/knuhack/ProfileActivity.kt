@@ -14,9 +14,15 @@ import com.example.knuhack.dto.ProfileForm
 import android.content.Intent
 import android.net.Uri
 import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.drawerlayout.widget.DrawerLayout
 import com.bumptech.glide.Glide
+
 import com.example.knuhack.dto.ReplyForm
 import com.example.knuhack.entity.Reply
+
+import com.google.android.material.navigation.NavigationView
+
 
 
 class ProfileActivity : AppCompatActivity() {
@@ -41,11 +47,61 @@ class ProfileActivity : AppCompatActivity() {
 
     private lateinit var changeButton: ImageButton
 
+    //사이드바
+    lateinit var toggle : ActionBarDrawerToggle
+    lateinit var  drawerLayout : DrawerLayout
+    lateinit var navigationView: NavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
 
+
         id = intent.getLongExtra("userId", -1)
+
+
+//사이드바
+        drawerLayout  = findViewById(R.id.mypage_drawerLayout)
+        navigationView = findViewById(R.id.mypage_nav_view)
+
+        toggle = ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        navigationView.setNavigationItemSelectedListener {
+            when(it.itemId)
+            {
+                R.id.menu_message -> {
+                    val intent = Intent(this, MessageActivity::class.java)
+                    intent.putExtra("nickname", nickname)
+                    intent.putExtra("userId", id)
+                    startActivity (intent)
+                }
+
+                R.id.menu_profile -> {
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    intent.putExtra("nickname", nickname)
+                    intent.putExtra("id", id)
+                    startActivity (intent)
+                }
+
+                R.id.menu_home  -> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("category", "FREE")
+                    intent.putExtra("nickname", nickname)
+                    intent.putExtra("userId", id)
+                    startActivity (intent)
+                }
+
+            }
+            true
+        }
+
+
+        initView()
+
         intent.getStringExtra("nickname")?.let {
             nickname = it
             initView()

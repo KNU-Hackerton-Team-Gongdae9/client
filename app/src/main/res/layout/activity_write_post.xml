@@ -62,9 +62,11 @@
             android:layout_width="match_parent"
             android:backgroundTint="@color/white"
             android:text="게시판 선택"
+            android:background="#00ff0000"
             android:textSize="12sp"
             android:textColor="@color/black"
-            android:gravity="left"
+            android:gravity="center|left"
+            android:layout_marginStart="10dp"
             android:layout_height="wrap_content">
         </Button>
         <LinearLayout
@@ -94,12 +96,12 @@
             android:id="@+id/message_input"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:gravity="top"
             android:layout_weight="1"
-            android:textAlignment="viewStart"
+            android:hint="내용을 입력하세요"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:textSize="18dp"
-            android:text="내용을 입력하세요 "
             />
     </LinearLayout>
 </LinearLayout>
