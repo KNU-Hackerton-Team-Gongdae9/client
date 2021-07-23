@@ -124,7 +124,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
-                        android:text="이현섭"
                         android:textAlignment="center"
                         android:textSize="20sp"
                         android:textStyle="bold"
@@ -166,7 +165,6 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="5dp"
                             android:gravity=""
-                            android:text="asd123@knu.ac.kr"
                             android:textSize="18sp" />
 
                     </LinearLayout>
@@ -198,7 +196,6 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="5dp"
                             android:gravity=""
-                            android:text="글솝"
                             android:textSize="18sp" />
 
                     </LinearLayout>
@@ -230,7 +227,6 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="5dp"
                             android:gravity=""
-                            android:text="2학년 "
                             android:textSize="18sp" />
 
                     </LinearLayout>
@@ -262,7 +258,6 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="5dp"
                             android:gravity=""
-                            android:text="C언어, Python"
                             android:textSize="18sp" />
 
                     </LinearLayout>
