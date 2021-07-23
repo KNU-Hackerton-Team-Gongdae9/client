@@ -5,5 +5,9 @@ data class Profile(
     var interset : String,
     var githubLink : String,
     var blogLink : String,
-    var imageLink : String
+    var imageLink : String,
+
+    var email : String,
+    var mager : String,
+    var grade : Int,
 )

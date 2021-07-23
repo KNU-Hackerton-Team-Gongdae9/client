@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_profile -> {
                     val intent = Intent(this, ProfileActivity::class.java)
                     intent.putExtra("nickname", nickname)
-                    intent.putExtra("id", id)
+                    intent.putExtra("userId", id)
                     startActivity (intent)
                 }
 

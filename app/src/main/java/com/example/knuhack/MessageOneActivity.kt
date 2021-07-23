@@ -48,11 +48,14 @@ class MessageOneActivity : AppCompatActivity() {
         }
 
         listView = findViewById<ListView>(R.id.message_one_list)
-
-        Toast.makeText(mContext, nickname + " " + otherNickname, Toast.LENGTH_SHORT).show()
         getMessageList()
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        getMessageList()
+    }
 
     private class MyCustomAdapter(val otherNickname: String, private val items: List<Message>) : BaseAdapter() {
 
@@ -63,7 +66,7 @@ class MessageOneActivity : AppCompatActivity() {
         override fun getItemId(position: Int): Long = position.toLong()
 
         override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
-            if (items[position].nickname.equals(otherNickname)) {
+            if (items[position].otherNickname.equals(otherNickname)) {
                 val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_message_main_list_sender, null)
 
                 view.findViewById<TextView>(R.id.sender_message_content).text = items[position].content
@@ -95,4 +98,6 @@ class MessageOneActivity : AppCompatActivity() {
             }
         })
     }
+
+
 }
