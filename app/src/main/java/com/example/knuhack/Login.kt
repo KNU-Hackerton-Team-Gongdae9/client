@@ -45,6 +45,11 @@ class Login : AppCompatActivity() {
             val pw = pwEditText.text.toString().trim{ it <= ' ' }
             requestLogin(id, pw)
         }
+
+        signUpBtn.setOnClickListener{
+            var i = Intent(getApplicationContext(), SignUp::class.java)
+            startActivity(i)
+        }
     }
 
     fun requestLogin(id: String, pw: String) {
