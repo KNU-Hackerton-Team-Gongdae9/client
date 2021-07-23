@@ -15,7 +15,6 @@ import com.example.knuhack.dto.CommentForm
 import com.example.knuhack.dto.ReplyForm
 import com.example.knuhack.entity.Comment
 import com.example.knuhack.entity.Reply
-import com.google.android.material.button.MaterialButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -137,9 +136,9 @@ class PostDetail : AppCompatActivity() {
             when(oItems[which]){
                 oItems[0] -> startProfileActivity(item.author)
                 oItems[1] -> sendMessage(item.author)
-                oItems[2] -> writeReply(item.commentId, userNickname) // TODO: item.commentId, 추가
+                oItems[2] -> writeReply(item.commentId, userNickname)
                 oItems[3] -> edit(item.commentId, item.replyId, userNickname)
-                oItems[4] -> delete()
+                oItems[4] -> delete(item.commentId, item.replyId)
             }
 
         }).setCancelable(false).show();
@@ -180,30 +179,81 @@ class PostDetail : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun edit(commentId : Long, replyId: Long, nickname: String){
+    private fun edit(commentId: Long, replyId: Long, nickname: String){
         Toast.makeText(mContext, "edit", Toast.LENGTH_LONG).show()
 
-        val dialogView = layoutInflater.inflate(R.layout.dialog_reply_update, null)
-        val alertDialog = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .create()
+        if(replyId > 0) {
+            Log.e("REPLY " , "리플라이")
+            val dialogView = layoutInflater.inflate(R.layout.dialog_reply_update, null)
+            val alertDialog = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create()
 
-        val confirmBtn = dialogView.findViewById<Button>(R.id.updateReplyConfirmButton)
-        val cancelBtn = dialogView.findViewById<Button>(R.id.updateReplyCancelButton)
+            val confirmBtn = dialogView.findViewById<Button>(R.id.updateReplyConfirmButton)
+            val cancelBtn = dialogView.findViewById<Button>(R.id.updateReplyCancelButton)
 
-        confirmBtn.setOnClickListener {
-            val updatedContent = dialogView.findViewById<EditText>(R.id.reply_update_content).text
-            alertDialog.dismiss()
-            Log.d("입력 확인", "수정 내용 : $updatedContent")
-            updateReply(commentId, replyId, nickname, updatedContent.toString())
+            confirmBtn.setOnClickListener {
+                val updatedContent = dialogView.findViewById<EditText>(R.id.reply_update_content).text
+                alertDialog.dismiss()
+                Log.d("입력 확인", "수정 내용 : $updatedContent")
+                updateReply(commentId, replyId, nickname, updatedContent.toString())
+            }
+
+            cancelBtn.setOnClickListener {
+                alertDialog.dismiss()
+                Log.d("답글 수정 취소 ", "답글 수정을 취소했습니다.")
+            }
+            alertDialog.show()
+        } else if(commentId > 0){
+            Log.e("COMMENT" , "코멘트")
+            val dialogView = layoutInflater.inflate(R.layout.dialog_comment_update, null)
+            val alertDialog = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create()
+
+            val confirmBtn = dialogView.findViewById<Button>(R.id.updateCommentConfirmButton)
+            val cancelBtn = dialogView.findViewById<Button>(R.id.updateCommentCancelButton)
+
+            confirmBtn.setOnClickListener {
+                val updatedContent = dialogView.findViewById<EditText>(R.id.comment_update_content).text
+                alertDialog.dismiss()
+                Log.d("입력 확인", "수정 내용 : $updatedContent")
+                updateComment(commentId, replyId, nickname, updatedContent.toString())
+            }
+
+            cancelBtn.setOnClickListener {
+                alertDialog.dismiss()
+                Log.d("댓글 수정 취소 ", "댓글 수정을 취소했습니다.")
+            }
+
+            alertDialog.show()
         }
+    }
 
-        cancelBtn.setOnClickListener {
-            alertDialog.dismiss()
-            Log.d("답글 수정 취소 ", "답글 수정을 취소했습니다.")
-        }
+    private fun updateComment(commentId: Long, replyId: Long, nickname: String, updatedContent: String) {
+        RestApiService.instance.editComment(commentId, CommentForm(updatedContent, nickname)).enqueue(object : Callback<ApiResult<String>> {
+            override fun onResponse(call: Call<ApiResult<String>>, response: Response<ApiResult<String>>) {
+                response.body()?.let {
+                    Log.e("it ?!   " , it.toString() + "   코멘트 : " + commentId + "  리플라이 : " + replyId )
+                    if(!it.success.equals("true")) return
+                    Log.e("댓글 수정이 성공적으로 수행되었습니다.", it.toString())
+                    for (item in items) {
+                        if(item.commentId == commentId && item.type.equals("COMMENT")){
+                            item.author = nickname // 댓글이 삭제되는 경우 작성자와 내용이 모두 변함
+                            item.content = updatedContent
+                            break
+                        }
+                    }
+                    val customAdapter = CustomAdapter(mContext, items)
+                    listView.adapter = customAdapter
+                }
+            }
 
-        alertDialog.show()
+            override fun onFailure(call: Call<ApiResult<String>>, t: Throwable) {
+                Toast.makeText(mContext,"댓글 수정에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                t.message?.let { Log.e("comment updating failed", it) }
+            }
+        })
     }
 
 
@@ -225,14 +275,12 @@ class PostDetail : AppCompatActivity() {
         })
     }
 
-    private fun delete(){
-        Toast.makeText(mContext, "delete", Toast.LENGTH_LONG).show()
-    }
+
 
     class CustomAdapter(private val context: PostDetail, private val items: MutableList<AdapterItem>) : BaseAdapter() {
         data class AdapterItem(
-            val author:String,
-            val content:String,
+            var author:String,
+            var content:String,
             var type:String,
             var commentId : Long,
             var replyId : Long
@@ -294,7 +342,7 @@ class PostDetail : AppCompatActivity() {
                         for(comment in it){
                             items.add(CustomAdapter.AdapterItem(comment.author, comment.content, "COMMENT", comment.commentId, -1))
                             for(reply in comment.replyDtoList){
-                                items.add(CustomAdapter.AdapterItem(reply.author, reply.content, "REPLY", comment.commentId, -1))
+                                items.add(CustomAdapter.AdapterItem(reply.author, reply.content, "REPLY", comment.commentId, reply.id))
                             }
                         }
                     }
@@ -346,4 +394,42 @@ class PostDetail : AppCompatActivity() {
             }
         })
     }
+    private fun delete(commentId: Long, replyId: Long){
+        Toast.makeText(mContext, "delete", Toast.LENGTH_LONG).show()
+        Log.e("커멘트와 리플라이 아이디 : ", commentId.toString() + " " + replyId)
+        var target : Long
+        if(replyId > 0L) {
+
+            RestApiService.instance.deleteReply(replyId).enqueue(object : Callback<ApiResult<String>> {
+                override fun onResponse(call: Call<ApiResult<String>>, response: Response<ApiResult<String>>) {
+                    response.body()?.let {
+                        Log.e("[RESPONSE] ", it.toString())
+                        val customAdapter = CustomAdapter(mContext, items)
+                        listView.adapter = customAdapter
+                    }
+                }
+
+                override fun onFailure(call: Call<ApiResult<String>>, t: Throwable) {
+                    Toast.makeText(mContext, "답글 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                    t.message?.let { Log.e("reply deleting failed", it) }
+                }
+            })
+        } else if(commentId > 0)
+            RestApiService.instance.deleteComment(commentId).enqueue(object : Callback<ApiResult<Boolean>> {
+                override fun onResponse(call: Call<ApiResult<Boolean>>, response: Response<ApiResult<Boolean>>) {
+                    response.body()?.let {
+                        Log.e("[RESPONSE] ", it.toString())
+                        updateComment(commentId, -1, "알 수 없음", "삭제된 댓글입니다.")
+                        val customAdapter = CustomAdapter(mContext, items)
+                        listView.adapter = customAdapter
+                    }
+                }
+
+                override fun onFailure(call: Call<ApiResult<Boolean>>, t: Throwable) {
+                    Toast.makeText(mContext, "댓글 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                    t.message?.let { Log.e("comment deleting failed", it) }
+                }
+            })
+    }
+
 }
