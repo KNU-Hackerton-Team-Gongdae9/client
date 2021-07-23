@@ -214,7 +214,7 @@ class PostDetail : AppCompatActivity() {
                     Log.i("댓글 수정이 성공적으로 수행되었습니다.", it.toString())
                     val customAdapter = CustomAdapter(mContext, items)
                     listView.adapter = customAdapter
-                    customAdapter.addOne(CustomAdapter.AdapterItem(nickname, updatedContent, "REPLY", commentId, replyId))
+                    customAdapter.changeOne(CustomAdapter.AdapterItem(nickname, updatedContent, "REPLY", commentId, replyId))
                 }
             }
 
@@ -232,7 +232,7 @@ class PostDetail : AppCompatActivity() {
     class CustomAdapter(private val context: PostDetail, private val items: MutableList<AdapterItem>) : BaseAdapter() {
         data class AdapterItem(
             val author:String,
-            val content:String,
+            var content:String,
             var type:String,
             var commentId : Long,
             var replyId : Long
@@ -278,6 +278,14 @@ class PostDetail : AppCompatActivity() {
         fun addOne(adapterItem: AdapterItem){
             items.add(adapterItem)
             notifyDataSetChanged()
+        }
+
+        fun changeOne(adapterItem: AdapterItem){
+            for(item in items){
+                if(item.author.equals(adapterItem.author)){
+                    item.content = adapterItem.content
+                }
+            }
         }
     }
 

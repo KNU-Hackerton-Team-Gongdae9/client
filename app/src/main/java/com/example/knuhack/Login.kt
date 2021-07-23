@@ -39,6 +39,10 @@ class Login : AppCompatActivity() {
         findIdBtn = findViewById<Button>(R.id.find_id) as Button
         findPwBtn = findViewById<Button>(R.id.find_pw) as Button
 
+        signUpBtn.setOnClickListener {
+            intent = Intent(mContext, SignUp::class.java)
+            startActivity(intent)
+        }
 
         loginBtn.setOnClickListener {
             val id = idEditText.text.toString().trim{ it <= ' '}
