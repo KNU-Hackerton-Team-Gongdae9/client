@@ -83,17 +83,6 @@
                     android:textSize="14sp">
                 </EditText>
 
-                <Button
-                    android:id="@+id/id_check_button"
-                    android:layout_width="100dp"
-                    android:layout_gravity="center"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="15dp"
-                    android:textSize="10sp"
-                    android:background="@color/colorPrimary"
-                    android:textColor="@color/white"
-                    android:text="중복체크" />
-
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
