@@ -56,6 +56,8 @@
 
 [더 자세한 문서는 링크 참고](http://52.79.203.88:8080/swagger-ui.html#/)
 
+### Youtube
+[유튜브] (https://youtu.be/kNJewxJJT3w)
 <br/>
 
 
