@@ -24,12 +24,12 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     lateinit var toggle : ActionBarDrawerToggle
+    lateinit var  drawerLayout : DrawerLayout
+    lateinit var navigationView: NavigationView
 
     val global_items : ArrayList<Board> = ArrayList<Board>()
     val mContext  = this
     lateinit var listView: ListView
-    lateinit var  drawerLayout : DrawerLayout
-    lateinit var navigationView: NavigationView
     var findcategory = "FREE"
 
 
@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
             ))
     //    findcategory?.let { getBoardList(it) }
         //메인 리스트
+
 
         val btn = findViewById<TextView>(R.id.textView_freeBoard) as TextView
         btn.setOnClickListener(View.OnClickListener {
@@ -99,9 +100,14 @@ class MainActivity : AppCompatActivity() {
             findcategory = "STUDY"
             getBoardList(findcategory)
         })
+        val btn5 = findViewById<ImageView>(R.id.menu_btn_main) as ImageView
+        btn5.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, write_post::class.java)
+            startActivity(intent)
+        })
 
 
-
+        //사이드바
         drawerLayout  = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.nav_view)
 
@@ -124,31 +130,18 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_profile -> {
                     val intent = Intent(this, ProfileActivity::class.java)
                     intent.putExtra("nickname", nickname)
-                    intent.putExtra("id", id)
+                    intent.putExtra("userId", id)
                     startActivity (intent)
                 }
 
-                R.id.menu_item1  -> {
-                    val intent = Intent(this, postList::class.java)
+                R.id.menu_home  -> {
+                    val intent = Intent(this, MainActivity::class.java)
                     intent.putExtra("category", "FREE")
                     intent.putExtra("nickname", nickname)
                     intent.putExtra("userId", id)
                     startActivity (intent)
                 }
-                R.id.menu_item2 -> {
-                    val intent = Intent(this, postList::class.java)
-                    intent.putExtra("category", "QNA")
-                    intent.putExtra("nickname", nickname)
-                    intent.putExtra("userId", id)
-                    startActivity (intent)
-                }
-                R.id.menu_item3 -> {
-                    val intent = Intent(this, postList::class.java)
-                    intent.putExtra("category", "TEAM")
-                    intent.putExtra("nickname", nickname)
-                    intent.putExtra("userId", id)
-                    startActivity (intent)
-                }
+
             }
             true
         }
@@ -158,9 +151,6 @@ class MainActivity : AppCompatActivity() {
 //        intent.putExtra("category", "FREE")
 //        startActivity(intent)
 //        finish()
-
-
-
 
     }
 

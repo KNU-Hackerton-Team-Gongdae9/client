@@ -3,6 +3,7 @@ package com.example.knuhack
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -32,6 +33,7 @@ class PostDetail : AppCompatActivity() {
     lateinit var content: String
     lateinit var tile: String
     lateinit var author: String
+    lateinit var category: String
     var boardId : Long = -1
 
     // view
@@ -42,10 +44,10 @@ class PostDetail : AppCompatActivity() {
     lateinit var titleTextView : TextView
     lateinit var detailTextView : TextView
     lateinit var authorTextView: TextView
-
+    lateinit var kindTextView : TextView
 
     // button
-    lateinit var writeCommentBtn : Button
+    lateinit var writeCommentBtn : ImageView
     lateinit var toAuthorBtn : ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +70,7 @@ class PostDetail : AppCompatActivity() {
         intent.getStringExtra("content")?.let { content = it }  // Intent에서 Key를 email로 가지고 있는 값 가져오기
         intent.getStringExtra("title")?.let { title = it }
         intent.getStringExtra("author")?.let { author = it }
+        intent.getStringExtra("category")?.let{category=it}
 
         val commentText = findViewById<EditText>(R.id.commentEdit) as EditText
         val text1 = findViewById<TextView>(R.id.postTitle) as TextView
@@ -77,7 +80,7 @@ class PostDetail : AppCompatActivity() {
         val text3 = findViewById<TextView>(R.id.writer_postDetail) as TextView
         text3.setText(author)
 
-        val commentbtn = findViewById<Button>(R.id.writeCommentBtn) as Button
+        val commentbtn = findViewById<ImageView>(R.id.writeCommentBtn) as ImageView
 
         commentbtn.setOnClickListener {
             val content = commentText.text.toString().trim { it <= ' ' }
@@ -96,9 +99,25 @@ class PostDetail : AppCompatActivity() {
         detailTextView.setText(content)
         authorTextView = findViewById<TextView>(R.id.writer_postDetail) as TextView
         authorTextView.setText(author)
+        kindTextView = findViewById<TextView>( R.id.board_kind) as TextView
+        if(category=="FREE"){
+            kindTextView.setText("자유게시판")
+        }
+        else if(category=="QNA"){
+            kindTextView.setText("QnA")
+        }
+        else if(category=="TEAM"){
+            kindTextView.setText("팀 프로젝트 게시판")
+        }
+        else if(category=="STUDY"){
+            kindTextView.setText("스터디 게시판")
+        }
+
         listView = findViewById<ListView>(R.id.commentlistview)
-        writeCommentBtn = findViewById<Button>(R.id.writeCommentBtn)
+        writeCommentBtn = findViewById<ImageView>(R.id.writeCommentBtn)
         toAuthorBtn = findViewById<ImageButton>(R.id.menu_btn_postDetail)
+        R.id.board_kind
+
     }
 
     private fun setClickListeners(){
@@ -125,7 +144,7 @@ class PostDetail : AppCompatActivity() {
                 oItems[0] -> startProfileActivity(author)
                 oItems[1] -> sendMessage(author)
             }
-        }).setCancelable(false).show();
+        }).setCancelable(true).show();
     }
 
     private fun setCommentDialog(item : CustomAdapter.AdapterItem) {
@@ -141,7 +160,7 @@ class PostDetail : AppCompatActivity() {
                 oItems[4] -> delete(item.commentId, item.replyId)
             }
 
-        }).setCancelable(false).show();
+        }).setCancelable(true).show();
     }
 
     private fun sendMessage(toNickname:String){
@@ -264,7 +283,7 @@ class PostDetail : AppCompatActivity() {
                     Log.i("댓글 수정이 성공적으로 수행되었습니다.", it.toString())
                     val customAdapter = CustomAdapter(mContext, items)
                     listView.adapter = customAdapter
-                    customAdapter.addOne(CustomAdapter.AdapterItem(nickname, updatedContent, "REPLY", commentId, replyId))
+                    customAdapter.changeOne(CustomAdapter.AdapterItem(nickname, updatedContent, "REPLY", commentId, replyId))
                 }
             }
 
@@ -326,6 +345,14 @@ class PostDetail : AppCompatActivity() {
         fun addOne(adapterItem: AdapterItem){
             items.add(adapterItem)
             notifyDataSetChanged()
+        }
+
+        fun changeOne(adapterItem: AdapterItem){
+            for(item in items){
+                if(item.author.equals(adapterItem.author)){
+                    item.content = adapterItem.content
+                }
+            }
         }
     }
 

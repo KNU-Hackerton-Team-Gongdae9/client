@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import com.example.knuhack.dto.ApiResult
 import com.example.knuhack.entity.Message
+import com.google.android.material.navigation.NavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,11 +25,55 @@ class MessageActivity : AppCompatActivity() {
 
     val mContext  = this
     lateinit var listView: ListView
+    //사이드바
+    lateinit var toggle : ActionBarDrawerToggle
+    lateinit var  drawerLayout : DrawerLayout
+    lateinit var navigationView: NavigationView
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.actvity_all_message_main)
+
+        //사이드바
+        drawerLayout  = findViewById(R.id.message_drawerLayout)
+        navigationView = findViewById(R.id.message_nav_view)
+
+        toggle = ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        navigationView.setNavigationItemSelectedListener {
+            when(it.itemId)
+            {
+                R.id.menu_message -> {
+                    val intent = Intent(this, MessageActivity::class.java)
+                    intent.putExtra("nickname", userNickname)
+                    intent.putExtra("userId", userId)
+                    startActivity (intent)
+                }
+
+                R.id.menu_profile -> {
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    intent.putExtra("nickname", userNickname)
+                    intent.putExtra("id", userId)
+                    startActivity (intent)
+                }
+
+                R.id.menu_home  -> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("category", "FREE")
+                    intent.putExtra("nickname", userNickname)
+                    intent.putExtra("userId", userId)
+                    startActivity (intent)
+                }
+
+            }
+            true
+        }
 
         intent.getStringExtra("nickname")?.let { userNickname = it }
         userId = intent.getLongExtra("userId", -1)
@@ -45,7 +92,7 @@ class MessageActivity : AppCompatActivity() {
         override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
             val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_message_list_main, null)
 
-            view.findViewById<TextView>(R.id.message_userName).text = items[position].nickname
+            view.findViewById<TextView>(R.id.message_userName).text = items[position].otherNickname
             view.findViewById<TextView>(R.id.message_date_mainPage).text = items[position].time
             view.findViewById<TextView>(R.id.message_content_mainPage).text = items[position].content
 
@@ -68,7 +115,7 @@ class MessageActivity : AppCompatActivity() {
 
                         intent.putExtra("content",item.content)
                         intent.putExtra("time", item.time)
-                        intent.putExtra("otherNickname", item.nickname)
+                        intent.putExtra("otherNickname", item.otherNickname)
                         intent.putExtra("userId", userId)
                         intent.putExtra("nickname", userNickname)
 

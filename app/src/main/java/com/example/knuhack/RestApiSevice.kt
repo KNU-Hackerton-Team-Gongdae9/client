@@ -1,6 +1,7 @@
 package com.example.knuhack
 
 
+import android.provider.ContactsContract
 import com.example.knuhack.dto.*
 import com.example.knuhack.entity.*
 import retrofit2.Call
@@ -19,6 +20,8 @@ interface RestApiService {
     @PUT("/api/comment/editComment/{commentId}")fun editComment(@Path("commentId")comment_id: Long, @Body commentForm: CommentForm) : Call<ApiResult<String>>
 
     @POST("/message/from/{sender_id}/to/{receiver_nickname}")fun send(@Body messageForm: MessageForm, @Path("sender_id")sender_id:Long, @Path("receiver_nickname") receiver_nickname:String) : Call<ApiResult<String>>
+    @GET("/message/user/{user_nickname}/sender/{other_nickname}")fun getChatList(@Path("user_nickname")myId:String, @Path("other_nickname")otherNickname: String) : Call<ApiResult<List<Message>>>
+    @GET("/message/user/{user_id}")fun getAllMessages(@Path("user_id")user_id:Long) : Call<ApiResult<List<Message>>>
     @GET("/message/received/user/{user_id}")fun getReceived(@Path("user_id")user_id:Long) : Call<ApiResult<List<Message>>>
     @GET("/message/sent/user/{user_id}") fun getSent(@Path("user_id")user_id:Long) :  Call<ApiResult<List<Message>>>
 
