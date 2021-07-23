@@ -44,7 +44,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private lateinit var githubImageView : ImageView
     private lateinit var velogImageView : ImageView
-    private lateinit var backButtonView : Button
+    private lateinit var backButtonView : ImageButton
     private lateinit var changeButton: ImageButton
 
     //사이드바
@@ -122,7 +122,7 @@ class ProfileActivity : AppCompatActivity() {
         velogImageView = findViewById<ImageView>(R.id.profile_velog)
 
         changeButton = findViewById<ImageButton>(R.id.menu_btn_profile)
-        backButtonView = findViewById<Button>(R.id.back_button_profile)
+        backButtonView = findViewById<ImageButton>(R.id.back_button_profile)
         backButtonView.setOnClickListener{
             finish()
         }

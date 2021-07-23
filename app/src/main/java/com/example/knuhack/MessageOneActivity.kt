@@ -40,6 +40,9 @@ class MessageOneActivity : AppCompatActivity() {
         intent.getStringExtra("content")?.let { content = it }
         intent.getStringExtra("otherNickname")?.let { otherNickname = it }
         intent.getStringExtra("time")?.let { time = it }
+        back_button_one_message.setOnClickListener{
+            finish()
+        }
 
         message_send_btn.setOnClickListener {
             intent = Intent(mContext, MessageSendActivity::class.java)
