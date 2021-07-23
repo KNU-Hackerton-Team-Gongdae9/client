@@ -1,17 +1,16 @@
 package com.example.knuhack
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.Toast
+import android.widget.*
 import com.example.knuhack.dto.ApiResult
 import com.example.knuhack.dto.SignUpForm
-import com.example.knuhack.entity.Member
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,15 +20,18 @@ class SignUp : AppCompatActivity(),View.OnClickListener {
     var mContext = this
 
     lateinit var idEdit : EditText
-    lateinit var idCheck : Button
+    lateinit var idCheckView : TextView
     lateinit var pw : EditText
     lateinit var pwConfirm : EditText
     lateinit var name : EditText
     lateinit var nickName : EditText
     lateinit var studentId : EditText
     lateinit var grade : EditText
+
+    lateinit var radioGroup : RadioGroup
     lateinit var majorComputer : RadioButton
     lateinit var majorGlobal : RadioButton
+
 
     lateinit var signUpButoon : Button
 
@@ -42,23 +44,51 @@ class SignUp : AppCompatActivity(),View.OnClickListener {
 
     fun initView(){
         idEdit=findViewById<EditText>(R.id.input_id) as EditText
-        idCheck=findViewById<Button>(R.id.id_check_button) as Button
         pw=findViewById<EditText>(R.id.input_pw) as EditText
+        idCheckView=findViewById<TextView>(R.id.input_id_check) as TextView
         pwConfirm=findViewById<EditText>(R.id.input_pw_confirm) as EditText
         name=findViewById<EditText>(R.id.input_name) as EditText
         nickName=findViewById<EditText>(R.id.input_nickname) as EditText
         studentId=findViewById<EditText>(R.id.input_student_number) as EditText
         grade=findViewById<EditText>(R.id.input_grade) as EditText
-        majorComputer=findViewById<RadioButton>(R.id.computer) as RadioButton
-        majorGlobal=findViewById<RadioButton>(R.id.global) as RadioButton
-
+        radioGroup=findViewById<RadioGroup>(R.id.radioGroup1) as RadioGroup
+        majorComputer=findViewById<RadioButton>(R.id.radio1) as RadioButton
+        majorGlobal=findViewById<RadioButton>(R.id.radio0) as RadioButton
         signUpButoon=findViewById<Button>(R.id.join_submit) as Button
 
 
     }
 
     fun setUpListener(){
-        signUpButoon!!.setOnClickListener(this)
+        signUpButoon.setOnClickListener(this)
+        idEdit.addTextChangedListener(object : TextWatcher{
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                idCheckView!!.visibility = View.VISIBLE
+                val isCheckEmail = emailPattern(idEdit.text.toString())
+                val isCheckKnu = knuPattern(idEdit.text.toString())
+
+                if (isCheckEmail && isCheckKnu) {
+                    idCheckView.text = "적합한 형식의 아이디(이메일) 입니다."
+                    idCheckView.setTextColor(Color.parseColor("#6e6e6e"))
+                } else if(isCheckEmail && !isCheckKnu){
+                    idCheckView.text = "knu.ac.kr로 가입가능합니다"
+                   idCheckView.setTextColor(Color.parseColor("#df504a"))
+                }
+                else if(!isCheckEmail){
+                    idCheckView.text = "이메일 형식에 맞지 않습니다."
+                    idCheckView.setTextColor(Color.parseColor("#df504a"))
+                }
+            }
+        })
     }
 
     override fun onClick(v: View) {
@@ -110,20 +140,18 @@ class SignUp : AppCompatActivity(),View.OnClickListener {
             pwConfirm!!.requestFocus()
             return
         }
-        var isCheckMajor:Boolean=false
+
         var majorString:String=""
 
-        if(majorGlobal.isChecked){
+
+        if(majorComputer.isChecked) {
             majorString="ADVANCED"
-            isCheckMajor=true
         }
-        else if(majorComputer.isChecked){
+        else if(majorGlobal.isChecked){
             majorString="GLOBAL"
-            isCheckMajor=true
         }
-
-        if(!isCheckMajor) return
-
+        else
+            return
 
         val member = SignUpForm(idEdit.text.toString(),Integer.parseInt(grade.text.toString()),
              majorString,nickName.text.toString(),pw.text.toString(),studentId.text.toString(),name.text.toString());
@@ -155,11 +183,18 @@ class SignUp : AppCompatActivity(),View.OnClickListener {
 
     }
 
+
     // 이메일 패턴 검사
     fun emailPattern(email: String): Boolean {
         val repExp =
             Regex("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$")
         return email.matches(repExp)
+    }
+
+    // knu 이메일 패턴 검사
+    fun knuPattern(email: String): Boolean {
+        val emailAddress = email.substring(email.indexOf("@") + 1);
+        return emailAddress.equals("knu.ac.kr")
     }
 
     // 비밀번호 패턴 검사
