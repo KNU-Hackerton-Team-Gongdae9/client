@@ -45,7 +45,7 @@ class MessageActivity : AppCompatActivity() {
         override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
             val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_message_list_main, null)
 
-            view.findViewById<TextView>(R.id.message_userName).text = items[position].nickname
+            view.findViewById<TextView>(R.id.message_userName).text = items[position].otherNickname
             view.findViewById<TextView>(R.id.message_date_mainPage).text = items[position].time
             view.findViewById<TextView>(R.id.message_content_mainPage).text = items[position].content
 
@@ -68,7 +68,7 @@ class MessageActivity : AppCompatActivity() {
 
                         intent.putExtra("content",item.content)
                         intent.putExtra("time", item.time)
-                        intent.putExtra("otherNickname", item.nickname)
+                        intent.putExtra("otherNickname", item.otherNickname)
                         intent.putExtra("userId", userId)
                         intent.putExtra("nickname", userNickname)
 
