@@ -16,6 +16,8 @@ interface RestApiService {
 
     @POST("/api/comment/write/{boardId}")fun writeComment(@Path("boardId")boardId:Long,@Body commentForm: CommentForm) : Call<ApiResult<Comment>>
     @GET("/api/comment/findContentsByBoardId")fun findContentsByBoardId(@Query("boardId")boardId: Long) : Call<ApiResult<List<Comment>>>
+    @DELETE("/api/comment/deleteComment/{commentId}")fun deleteComment(@Path("commentId")commentId: Long) : Call<ApiResult<Boolean>>
+    @PUT("/api/comment/editComment/{commentId}")fun editComment(@Path("commentId")comment_id: Long, @Body commentForm: CommentForm) : Call<ApiResult<String>>
 
     @POST("/message/from/{sender_id}/to/{receiver_nickname}")fun send(@Body messageForm: MessageForm, @Path("sender_id")sender_id:Long, @Path("receiver_nickname") receiver_nickname:String) : Call<ApiResult<String>>
     @GET("/message/user/{user_nickname}/sender/{other_nickname}")fun getChatList(@Path("user_nickname")myId:String, @Path("other_nickname")otherNickname: String) : Call<ApiResult<List<Message>>>
